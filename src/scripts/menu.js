@@ -75,20 +75,67 @@ document.addEventListener('DOMContentLoaded', () => {
     // Menüyü yükleme (Gerçek projede Supabase'den çekilecek)
     const loadMenu = async () => {
         try {
-            const dbItems = await supabaseModule.menu.getMenuItems(restaurantId);
-            menuData = dbItems.map(mi => ({
-                id: mi.id,
-                title: mi.name,
-                description: mi.description,
-                price: mi.price,
-                category: mi.categories?.name || 'Genel',
-                image: mi.image_url,
-                options: { portions: ['normal'], spicyLevels: ['none'] }
-            }));
+            // Demo menü verisi (gerçek veritabanı bağlantısı gelene kadar)
+            menuData = [
+                {
+                    id: '1',
+                    title: 'Karışık Izgara',
+                    description: 'Kuzu pirzola, dana antrikot, tavuk şiş ve köfte içeren özel ızgara tabağı',
+                    price: 280,
+                    category: 'Izgara',
+                    image: '../assets/images/menu/mixed-grill.jpg',
+                    options: {
+                        portions: ['normal', 'large'],
+                        spicyLevels: ['none', 'mild', 'hot', 'extra']
+                    }
+                },
+                {
+                    id: '2',
+                    title: 'Köfte Porsiyon',
+                    description: '8 adet kasap köfte, yanında bulgur pilavı ve ızgara sebze ile',
+                    price: 180,
+                    category: 'Izgara',
+                    image: '../assets/images/menu/kofte.jpg',
+                    options: {
+                        portions: ['normal', 'large'],
+                        spicyLevels: ['none', 'mild', 'hot']
+                    }
+                },
+                {
+                    id: '3',
+                    title: 'Mantarlı Tavuk Sote',
+                    description: 'Kremalı sos ile hazırlanan mantarlı tavuk sote',
+                    price: 150,
+                    category: 'Ana Yemek',
+                    image: '../assets/images/menu/chicken-mushroom.jpg',
+                    options: {
+                        portions: ['normal', 'large'],
+                        spicyLevels: ['none', 'mild']
+                    }
+                },
+                {
+                    id: '4',
+                    title: 'Sezar Salata',
+                    description: 'Izgara tavuk, kruton, parmesan peyniri, sezar sosu ile klasik sezar salata',
+                    price: 120,
+                    category: 'Salata',
+                    image: '../assets/images/menu/caesar-salad.jpg',
+                    options: {
+                        portions: ['normal', 'large'],
+                        spicyLevels: ['none']
+                    }
+                }
+            ];
 
-            const uniqueCategories = new Set(menuData.map(i=>i.category));
+            // Kategorileri çıkar
+            const uniqueCategories = new Set();
+            menuData.forEach(item => uniqueCategories.add(item.category));
             categories = Array.from(uniqueCategories);
+
+            // Kategorileri göster
             renderCategories();
+            
+            // Menüyü göster
             renderMenuItems(menuData);
         } catch (error) {
             console.error('Menü yüklenirken hata oluştu:', error);
@@ -427,17 +474,32 @@ document.addEventListener('DOMContentLoaded', () => {
     // Siparişi onaylama
     const confirmOrder = async () => {
         try {
-            const tableRow = await supabaseModule.tables.getTables(restaurantId).then(t=>t.find(tb=>tb.number==tableNumber));
-            if(!tableRow){showNotification('Masa bulunamadı','error');return;}
-            const orderRes = await supabaseModule.orders.createOrder({
+            // Demo sipariş oluşturma (gerçek veritabanı bağlantısı gelene kadar)
+            console.log('Demo sipariş oluşturuluyor:', {
                 restaurantId,
-                tableId: tableRow.id,
+                tableNumber,
                 items: cartItems,
-                totalAmount: cartItems.reduce((s,i)=>s+i.totalPrice,0)
+                totalAmount: cartItems.reduce((sum, item) => sum + item.totalPrice, 0),
+                orderDate: new Date().toISOString(),
+                status: 'pending'
             });
-            document.getElementById('order-id').textContent = orderRes.id;
-            cartItems=[];updateCart();orderModal.style.display='none';successModal.style.display='block';
-        }catch(err){console.error(err);showNotification('Sipariş oluşturulamadı','error');}
+            
+            // Demo için rastgele ID
+            const orderId = Math.floor(100000 + Math.random() * 900000);
+            document.getElementById('order-id').textContent = orderId;
+            
+            // Sepeti temizle
+            cartItems = [];
+            updateCart();
+            
+            // Sipariş modalını kapat ve başarı modalını göster
+            orderModal.style.display = 'none';
+            successModal.style.display = 'block';
+        } catch (error) {
+            console.error('Sipariş oluşturulurken hata:', error);
+            showNotification('Sipariş oluşturulurken bir hata oluştu. Lütfen tekrar deneyin.', 'error');
+            closeModals();
+        }
     };
 
     // Başarılı sipariş modalını kapatma
