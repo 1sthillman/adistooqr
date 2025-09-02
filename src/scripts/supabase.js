@@ -158,11 +158,12 @@ const supabaseRestaurant = {
       // Try selecting address (used as description)
       const { data, error } = await supabaseClient
         .from('restaurants')
-        .select('id, name, address:description, logo_url')
+        .select('id, name, address, logo_url')
         .eq('restaurant_id', restaurantId)
         .single();
       if (error) throw error;
-      return data;
+      // Map address field to description for UI
+      return { id: data.id, name: data.name, description: data.address, logo_url: data.logo_url };
     } catch (error) {
       // Fallback if description column was still requested elsewhere
       console.error('Restoran bilgileri alınamadı:', error);
