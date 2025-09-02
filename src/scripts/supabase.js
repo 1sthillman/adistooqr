@@ -157,7 +157,7 @@ const supabaseRestaurant = {
     try {
       const { data, error } = await supabaseClient
         .from('restaurants')
-        .select('id, name, description, logo_url')
+        .select('id, name, address, logo_url')
         .eq('restaurant_id', restaurantId)
         .single();
       if (error) throw error;

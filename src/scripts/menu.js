@@ -60,9 +60,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const loadRestaurantInfo = async () => {
         try {
             const restaurantInfo = await supabaseModule.restaurant.getRestaurantInfo(restaurantId);
-            const { name, description, logo_url } = restaurantInfo;
+            const { name, address, logo_url } = restaurantInfo;
             document.getElementById('restaurant-name').textContent = name;
-            document.getElementById('restaurant-description').textContent = description || '';
+            document.getElementById('restaurant-description').textContent = address || '';
             document.getElementById('restaurant-logo').src = logo_url || '../assets/images/placeholder-logo.png';
         } catch (err) {
             console.error('Restaurant bilgileri yüklenirken hata oluştu:', err);
