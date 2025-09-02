@@ -73,26 +73,30 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Menüyü Supabase'den yükleme
+    // Menüyü doğrudan Supabase ürünü tablosundan yükleyen fonksiyon
     const loadMenu = async () => {
         try {
-            // Supabase ile kategorilere göre menü öğelerini çek
-            const items = await supabaseModule.menu.getMenuItems(restaurantId);
-            menuData = items.map(mi => ({
-                id: mi.id,
-                title: mi.name,
-                description: mi.description,
-                price: mi.price,
-                category: mi.categories.name,
-                image: mi.image_url,
-                options: { portions: [], spicyLevels: [] }
+            const { data: items, error } = await supabaseClient
+                .from('products')
+                .select('*, categories(name)')
+                .eq('restaurant_id', restaurantId)
+                .order('sort_order', { ascending: true });
+            if (error) throw error;
+
+            menuData = items.map(item => ({
+                id: item.id,
+                title: item.name,
+                description: item.description,
+                price: item.price,
+                category: item.categories.name,
+                image: item.image_url,
+                options: JSON.parse(item.options || '[]')
             }));
-            // Benzersiz kategorileri belirle
             categories = [...new Set(menuData.map(i => i.category))];
             renderCategories();
             renderMenuItems(menuData);
-        } catch (error) {
-            console.error('Menü yüklenirken hata oluştu:', error);
+        } catch (err) {
+            console.error('Menü yüklenirken hata oluştu:', err);
             showNotification('Menü yüklenirken bir hata oluştu', 'error');
         }
     };
