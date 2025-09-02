@@ -271,11 +271,8 @@ const supabaseMenu = {
   async getMenuItems(restaurantId, categoryId = null) {
     try {
       let query = supabaseClient
-        .from('menu_items')
-        .select(`
-          *,
-          categories (id, name)
-        `)
+        .from('products')
+        .select('* , categories(name)') // join category name
         .eq('restaurant_id', restaurantId);
       
       if (categoryId) {

@@ -56,23 +56,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // Başlangıç değerlerini ayarlama
     tableNumberElement.textContent = tableId;
 
-    // Restaurant bilgilerini yükleme (Gerçek projede Supabase'den çekilecek)
+    // Restaurant bilgilerini yükleme (Supabase’den çekilecek)
     const loadRestaurantInfo = async () => {
         try {
-            // Gerçek projede API çağrısı yapılacak
-            const restaurantInfo = {
-                id: restaurantId,
-                name: 'ADİSTOW Demo Restaurant',
-                description: 'En iyi yemekler, en iyi hizmet',
-                logo: '../assets/images/restaurant-logo.png'
-            };
-
-            document.getElementById('restaurant-name').textContent = restaurantInfo.name;
-            document.getElementById('restaurant-description').textContent = restaurantInfo.description;
-            document.getElementById('restaurant-logo').src = restaurantInfo.logo;
-        } catch (error) {
-            console.error('Restaurant bilgileri yüklenirken hata oluştu:', error);
-            showNotification('Restaurant bilgileri yüklenirken bir hata oluştu', 'error');
+            const { data: restaurantInfo, error } = await supabaseModule.restaurant.getRestaurantInfo(restaurantId);
+            if (error || !restaurantInfo) {
+                throw error || new Error('Restoran bulunamadı');
+            }
+            const { name, description, logo_url } = restaurantInfo;
+            document.getElementById('restaurant-name').textContent = name;
+            document.getElementById('restaurant-description').textContent = description || '';
+            document.getElementById('restaurant-logo').src = logo_url || '../assets/images/placeholder-logo.png';
+        } catch (err) {
+            console.error('Restaurant bilgileri yüklenirken hata oluştu:', err);
+            showNotification('Restoran bilgileri alınamadı', 'error');
         }
     };
 
