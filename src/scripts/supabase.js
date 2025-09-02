@@ -155,14 +155,16 @@ const supabaseRestaurant = {
   // Restoran bilgilerini getirme
   async getRestaurantInfo(restaurantId) {
     try {
+      // Try selecting address (used as description)
       const { data, error } = await supabaseClient
         .from('restaurants')
-        .select('id, name, address, logo_url')
+        .select('id, name, address:description, logo_url')
         .eq('restaurant_id', restaurantId)
         .single();
       if (error) throw error;
       return data;
     } catch (error) {
+      // Fallback if description column was still requested elsewhere
       console.error('Restoran bilgileri alınamadı:', error);
       throw error;
     }
