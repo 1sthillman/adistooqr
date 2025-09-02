@@ -1,8 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
     // URL'den parametreleri alma
     const urlParams = new URLSearchParams(window.location.search);
-    const restaurantId = urlParams.get('restaurant') || 'demo';
-    const tableNumber = urlParams.get('table') || '1';
+    const restaurantId = urlParams.get('restaurant_id');
+    const tableId = urlParams.get('table_id');
+    if (!restaurantId || !tableId) {
+        showNotification('Restaurant veya masa ID bulunamadı', 'error');
+        return;
+    }
 
     // Menü verisi (Gerçek projede Supabase'den çekilecek)
     let menuData = [];
@@ -50,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let selectedSpicyLevel = 'none';
 
     // Başlangıç değerlerini ayarlama
-    tableNumberElement.textContent = tableNumber;
+    tableNumberElement.textContent = tableId;
 
     // Restaurant bilgilerini yükleme (Gerçek projede Supabase'den çekilecek)
     const loadRestaurantInfo = async () => {
@@ -72,70 +76,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Menüyü yükleme (Gerçek projede Supabase'den çekilecek)
+    // Menüyü Supabase'den yükleme
     const loadMenu = async () => {
         try {
-            // Demo menü verisi (gerçek veritabanı bağlantısı gelene kadar)
-            menuData = [
-                {
-                    id: '1',
-                    title: 'Karışık Izgara',
-                    description: 'Kuzu pirzola, dana antrikot, tavuk şiş ve köfte içeren özel ızgara tabağı',
-                    price: 280,
-                    category: 'Izgara',
-                    image: '../assets/images/menu/mixed-grill.jpg',
-                    options: {
-                        portions: ['normal', 'large'],
-                        spicyLevels: ['none', 'mild', 'hot', 'extra']
-                    }
-                },
-                {
-                    id: '2',
-                    title: 'Köfte Porsiyon',
-                    description: '8 adet kasap köfte, yanında bulgur pilavı ve ızgara sebze ile',
-                    price: 180,
-                    category: 'Izgara',
-                    image: '../assets/images/menu/kofte.jpg',
-                    options: {
-                        portions: ['normal', 'large'],
-                        spicyLevels: ['none', 'mild', 'hot']
-                    }
-                },
-                {
-                    id: '3',
-                    title: 'Mantarlı Tavuk Sote',
-                    description: 'Kremalı sos ile hazırlanan mantarlı tavuk sote',
-                    price: 150,
-                    category: 'Ana Yemek',
-                    image: '../assets/images/menu/chicken-mushroom.jpg',
-                    options: {
-                        portions: ['normal', 'large'],
-                        spicyLevels: ['none', 'mild']
-                    }
-                },
-                {
-                    id: '4',
-                    title: 'Sezar Salata',
-                    description: 'Izgara tavuk, kruton, parmesan peyniri, sezar sosu ile klasik sezar salata',
-                    price: 120,
-                    category: 'Salata',
-                    image: '../assets/images/menu/caesar-salad.jpg',
-                    options: {
-                        portions: ['normal', 'large'],
-                        spicyLevels: ['none']
-                    }
-                }
-            ];
-
-            // Kategorileri çıkar
-            const uniqueCategories = new Set();
-            menuData.forEach(item => uniqueCategories.add(item.category));
-            categories = Array.from(uniqueCategories);
-
-            // Kategorileri göster
+            // Supabase ile kategorilere göre menü öğelerini çek
+            const items = await supabaseModule.menu.getMenuItems(restaurantId);
+            menuData = items.map(mi => ({
+                id: mi.id,
+                title: mi.name,
+                description: mi.description,
+                price: mi.price,
+                category: mi.categories.name,
+                image: mi.image_url,
+                options: { portions: [], spicyLevels: [] }
+            }));
+            // Benzersiz kategorileri belirle
+            categories = [...new Set(menuData.map(i => i.category))];
             renderCategories();
-            
-            // Menüyü göster
             renderMenuItems(menuData);
         } catch (error) {
             console.error('Menü yüklenirken hata oluştu:', error);
@@ -474,18 +431,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Siparişi onaylama
     const confirmOrder = async () => {
         try {
-            // Demo sipariş oluşturma (gerçek veritabanı bağlantısı gelene kadar)
-            console.log('Demo sipariş oluşturuluyor:', {
-                restaurantId,
-                tableNumber,
-                items: cartItems,
-                totalAmount: cartItems.reduce((sum, item) => sum + item.totalPrice, 0),
-                orderDate: new Date().toISOString(),
-                status: 'pending'
-            });
-            
-            // Demo için rastgele ID
-            const orderId = Math.floor(100000 + Math.random() * 900000);
+            // Supabase ile sipariş oluşturma
+            const orderId = await supabaseModule.orders.createOrder(restaurantId, tableId, cartItems, totalPrice, orderNoteText.value.trim());
             document.getElementById('order-id').textContent = orderId;
             
             // Sepeti temizle
