@@ -1,0 +1,528 @@
+:root {
+    /* Ana Renkler */
+    --primary-color: #4e54c8;
+    --primary-dark: #3a3f9d;
+    --primary-light: #8f94fb;
+    --secondary-color: #22c55e;
+    --secondary-dark: #15803d;
+    --secondary-light: #86efac;
+    
+    /* Nötr Renkler */
+    --dark: #1e293b;
+    --gray-900: #334155;
+    --gray-800: #475569;
+    --gray-700: #64748b;
+    --gray-600: #94a3b8;
+    --gray-500: #cbd5e1;
+    --gray-400: #e2e8f0;
+    --gray-300: #f1f5f9;
+    --gray-200: #f8fafc;
+    --white: #ffffff;
+    
+    /* Bildirim Renkleri */
+    --success: #22c55e;
+    --warning: #eab308;
+    --error: #ef4444;
+    --info: #3b82f6;
+    
+    /* Fonksiyonel */
+    --background: #f8fafc;
+    --text-color: #1e293b;
+    --border-color: #e2e8f0;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    
+    /* Yazı Tipleri */
+    --font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    
+    /* Aralıklar */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    
+    /* Boyutlar */
+    --border-radius-sm: 0.25rem;
+    --border-radius-md: 0.5rem;
+    --border-radius-lg: 1rem;
+    --border-radius-full: 9999px;
+    
+    /* Geçişler */
+    --transition-speed: 0.2s;
+    --transition-function: ease-in-out;
+}
+
+/* Temel CSS Sıfırlama */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: var(--font-family);
+    color: var(--text-color);
+    background-color: var(--background);
+    line-height: 1.6;
+}
+
+/* Tipografi */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color var(--transition-speed) var(--transition-function);
+}
+
+a:hover {
+    color: var(--primary-dark);
+    text-decoration: underline;
+}
+
+/* Auth Container */
+.auth-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Auth Card */
+.auth-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    background-color: var(--white);
+    max-width: 550px;
+    overflow-y: auto;
+}
+
+.auth-header {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.logo h1 {
+    color: var(--primary-color);
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    letter-spacing: 1px;
+}
+
+.auth-header h2 {
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.auth-header p {
+    color: var(--gray-600);
+}
+
+/* Auth Form */
+.auth-form {
+    flex: 1;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.input-group {
+    position: relative;
+}
+
+.input-group i {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gray-600);
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.5rem;
+    font-size: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    transition: border-color var(--transition-speed) var(--transition-function),
+                box-shadow var(--transition-speed) var(--transition-function);
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.1);
+}
+
+.toggle-password {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--gray-600);
+    font-size: 1rem;
+}
+
+.toggle-password:hover {
+    color: var(--gray-800);
+}
+
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+}
+
+.remember-me input {
+    margin-right: 0.5rem;
+}
+
+.forgot-password {
+    font-size: 0.875rem;
+}
+
+/* Buton */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    transition: all var(--transition-speed) var(--transition-function);
+    white-space: nowrap;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: var(--white);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    color: var(--white);
+    text-decoration: none;
+}
+
+.btn-block {
+    display: block;
+    width: 100%;
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: 2rem;
+    color: var(--gray-600);
+}
+
+/* Auth Background */
+.auth-background {
+    flex: 1.5;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    display: none; /* Mobil cihazlarda gizle */
+}
+
+.auth-background::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('../assets/images/restaurant-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.1;
+    z-index: 0;
+}
+
+.auth-info {
+    position: relative;
+    z-index: 1;
+    max-width: 600px;
+}
+
+.auth-info h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.auth-info p {
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+}
+
+.auth-features {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.feature-icon {
+    width: 50px;
+    height: 50px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.feature-text h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.feature-text p {
+    font-size: 1rem;
+    margin-bottom: 0;
+    opacity: 0.8;
+}
+
+/* Paket Seçimi */
+.package-selection {
+    margin-bottom: 1.5rem;
+}
+
+.package-selection label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.package-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.package-option {
+    position: relative;
+}
+
+.package-option input {
+    position: absolute;
+    opacity: 0;
+}
+
+.package-option label {
+    display: block;
+    padding: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    transition: all var(--transition-speed) var(--transition-function);
+    text-align: center;
+}
+
+.package-option input:checked + label {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px var(--primary-light);
+}
+
+.package-name {
+    font-weight: 600;
+}
+
+.package-price {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 0.5rem 0;
+}
+
+.package-detail {
+    font-size: 0.875rem;
+    color: var(--gray-600);
+}
+
+/* Abonelik Süresi */
+.subscription-period {
+    margin-bottom: 1.5rem;
+}
+
+.subscription-period label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.period-options {
+    display: flex;
+    gap: 1rem;
+}
+
+.period-option {
+    position: relative;
+    flex: 1;
+}
+
+.period-option input {
+    position: absolute;
+    opacity: 0;
+}
+
+.period-option label {
+    display: block;
+    padding: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    transition: all var(--transition-speed) var(--transition-function);
+    text-align: center;
+}
+
+.period-option input:checked + label {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px var(--primary-light);
+}
+
+.period-name {
+    font-weight: 600;
+}
+
+.period-discount {
+    font-size: 0.875rem;
+    color: var(--success);
+    margin-top: 0.25rem;
+}
+
+/* Kullanım Şartları */
+.terms {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.terms input {
+    margin-right: 0.75rem;
+    margin-top: 0.25rem;
+}
+
+.terms label {
+    font-size: 0.875rem;
+    font-weight: normal;
+}
+
+/* Notification */
+.notification {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(150%);
+    display: flex;
+    align-items: center;
+    background-color: var(--white);
+    padding: 1rem 1.5rem;
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-lg);
+    opacity: 0;
+    z-index: 1000;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+.notification.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.notification-icon {
+    margin-right: 1rem;
+    font-size: 1.5rem;
+    color: var(--info);
+}
+
+.notification-icon.success {
+    color: var(--success);
+}
+
+.notification-icon.warning {
+    color: var(--warning);
+}
+
+.notification-icon.error {
+    color: var(--error);
+}
+
+.notification-message p {
+    margin-bottom: 0;
+}
+
+/* Responsive */
+@media (min-width: 992px) {
+    .auth-background {
+        display: flex;
+    }
+}
+
+@media (max-width: 992px) {
+    .auth-card {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .package-options {
+        grid-template-columns: 1fr;
+    }
+    
+    .period-options {
+        flex-direction: column;
+    }
+}

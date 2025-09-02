@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yönetim Paneli | ADİSTOW QR</title>
+    <link rel="stylesheet" href="../styles/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <h1>ADİSTOW</h1>
+                </div>
+                <button id="close-sidebar" class="close-sidebar">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="restaurant-info">
+                <div class="restaurant-avatar">
+                    <img id="restaurant-logo" src="../assets/images/restaurant-logo.png" alt="Logo">
+                </div>
+                <div class="restaurant-name">
+                    <h3 id="restaurant-name-display">Restaurant Adı</h3>
+                    <p id="restaurant-id-display">ID: ADW123456</p>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item active" data-page="dashboard-home">
+                        <a href="#"><i class="fas fa-tachometer-alt"></i> <span>Ana Sayfa</span></a>
+                    </li>
+                    <li class="nav-item" data-page="orders">
+                        <a href="#"><i class="fas fa-shopping-cart"></i> <span>Siparişler</span></a>
+                    </li>
+                    <li class="nav-item" data-page="menu">
+                        <a href="#"><i class="fas fa-utensils"></i> <span>Menü Yönetimi</span></a>
+                    </li>
+                    <li class="nav-item" data-page="tables">
+                        <a href="#"><i class="fas fa-table"></i> <span>Masa Yönetimi</span></a>
+                    </li>
+                    <li class="nav-item" data-page="reports">
+                        <a href="#"><i class="fas fa-chart-bar"></i> <span>Raporlar</span></a>
+                    </li>
+                    <li class="nav-item" data-page="settings">
+                        <a href="#"><i class="fas fa-cog"></i> <span>Ayarlar</span></a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <button id="logout-btn" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Çıkış Yap</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Ana İçerik -->
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-left">
+                    <button id="toggle-sidebar" class="toggle-sidebar">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h2 id="page-title">Ana Sayfa</h2>
+                </div>
+                <div class="header-right">
+                    <div class="notifications-dropdown">
+                        <button class="icon-btn">
+                            <i class="fas fa-bell"></i>
+                            <span class="badge">3</span>
+                        </button>
+                        <div class="dropdown-content">
+                            <div class="dropdown-header">
+                                <h3>Bildirimler</h3>
+                            </div>
+                            <div class="dropdown-body">
+                                <div class="notification-item">
+                                    <div class="notification-icon order">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p class="notification-text">Yeni sipariş alındı - Masa 5</p>
+                                        <p class="notification-time">2 dakika önce</p>
+                                    </div>
+                                </div>
+                                <div class="notification-item">
+                                    <div class="notification-icon waiter">
+                                        <i class="fas fa-bell"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p class="notification-text">Garson çağrısı - Masa 3</p>
+                                        <p class="notification-time">5 dakika önce</p>
+                                    </div>
+                                </div>
+                                <div class="notification-item">
+                                    <div class="notification-icon coal">
+                                        <i class="fas fa-fire"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p class="notification-text">Köz isteği - Masa 8</p>
+                                        <p class="notification-time">7 dakika önce</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dropdown-footer">
+                                <a href="#">Tümünü Gör</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="user-dropdown">
+                        <button class="user-btn">
+                            <div class="user-avatar">
+                                <img src="../assets/images/avatar.jpg" alt="User">
+                            </div>
+                            <span class="user-name">Admin</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="dropdown-content">
+                            <a href="#"><i class="fas fa-user"></i> Profilim</a>
+                            <a href="#"><i class="fas fa-cog"></i> Ayarlar</a>
+                            <hr>
+                            <a href="#" id="logout-dropdown"><i class="fas fa-sign-out-alt"></i> Çıkış Yap</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div id="content-container" class="content-container">
+                <!-- Ana Sayfa İçeriği -->
+                <section id="dashboard-home" class="dashboard-page active">
+                    <div class="dashboard-overview">
+                        <div class="stats-cards">
+                            <div class="stat-card">
+                                <div class="stat-card-header">
+                                    <h3>Günlük Siparişler</h3>
+                                </div>
+                                <div class="stat-card-body">
+                                    <div class="stat-value">18</div>
+                                    <div class="stat-icon orders">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </div>
+                                </div>
+                                <div class="stat-card-footer">
+                                    <span class="trend positive">
+                                        <i class="fas fa-arrow-up"></i> 12.5%
+                                    </span>
+                                    <span class="trend-text">Dünden bugüne</span>
+                                </div>
+                            </div>
+
+                            <div class="stat-card">
+                                <div class="stat-card-header">
+                                    <h3>Günlük Gelir</h3>
+                                </div>
+                                <div class="stat-card-body">
+                                    <div class="stat-value">2.150₺</div>
+                                    <div class="stat-icon revenue">
+                                        <i class="fas fa-wallet"></i>
+                                    </div>
+                                </div>
+                                <div class="stat-card-footer">
+                                    <span class="trend positive">
+                                        <i class="fas fa-arrow-up"></i> 8.3%
+                                    </span>
+                                    <span class="trend-text">Dünden bugüne</span>
+                                </div>
+                            </div>
+
+                            <div class="stat-card">
+                                <div class="stat-card-header">
+                                    <h3>Aktif Masalar</h3>
+                                </div>
+                                <div class="stat-card-body">
+                                    <div class="stat-value">6</div>
+                                    <div class="stat-icon tables">
+                                        <i class="fas fa-chair"></i>
+                                    </div>
+                                </div>
+                                <div class="stat-card-footer">
+                                    <span class="trend neutral">
+                                        <i class="fas fa-minus"></i> 0%
+                                    </span>
+                                    <span class="trend-text">Şu anda</span>
+                                </div>
+                            </div>
+
+                            <div class="stat-card">
+                                <div class="stat-card-header">
+                                    <h3>Ortalama Sipariş</h3>
+                                </div>
+                                <div class="stat-card-body">
+                                    <div class="stat-value">119₺</div>
+                                    <div class="stat-icon average">
+                                        <i class="fas fa-calculator"></i>
+                                    </div>
+                                </div>
+                                <div class="stat-card-footer">
+                                    <span class="trend positive">
+                                        <i class="fas fa-arrow-up"></i> 5.2%
+                                    </span>
+                                    <span class="trend-text">Geçen haftaya göre</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="dashboard-widgets-row">
+                            <div class="dashboard-widget sales-chart">
+                                <div class="widget-header">
+                                    <h3>Satış Trendi</h3>
+                                    <div class="widget-controls">
+                                        <button class="btn btn-sm btn-outline">Günlük</button>
+                                        <button class="btn btn-sm">Haftalık</button>
+                                        <button class="btn btn-sm btn-outline">Aylık</button>
+                                    </div>
+                                </div>
+                                <div class="widget-body">
+                                    <canvas id="sales-chart"></canvas>
+                                </div>
+                            </div>
+                            
+                            <div class="dashboard-widget popular-items">
+                                <div class="widget-header">
+                                    <h3>Popüler Ürünler</h3>
+                                    <a href="#" class="widget-link">Tümünü Gör</a>
+                                </div>
+                                <div class="widget-body">
+                                    <ul class="popular-items-list">
+                                        <li class="popular-item">
+                                            <div class="popular-item-rank">1</div>
+                                            <div class="popular-item-info">
+                                                <h4>Karışık Izgara</h4>
+                                                <p>280₺ • 12 sipariş</p>
+                                            </div>
+                                            <div class="popular-item-percentage">24%</div>
+                                        </li>
+                                        <li class="popular-item">
+                                            <div class="popular-item-rank">2</div>
+                                            <div class="popular-item-info">
+                                                <h4>Köfte Porsiyon</h4>
+                                                <p>180₺ • 8 sipariş</p>
+                                            </div>
+                                            <div class="popular-item-percentage">16%</div>
+                                        </li>
+                                        <li class="popular-item">
+                                            <div class="popular-item-rank">3</div>
+                                            <div class="popular-item-info">
+                                                <h4>Mantarlı Tavuk Sote</h4>
+                                                <p>150₺ • 7 sipariş</p>
+                                            </div>
+                                            <div class="popular-item-percentage">14%</div>
+                                        </li>
+                                        <li class="popular-item">
+                                            <div class="popular-item-rank">4</div>
+                                            <div class="popular-item-info">
+                                                <h4>Sezar Salata</h4>
+                                                <p>120₺ • 5 sipariş</p>
+                                            </div>
+                                            <div class="popular-item-percentage">10%</div>
+                                        </li>
+                                        <li class="popular-item">
+                                            <div class="popular-item-rank">5</div>
+                                            <div class="popular-item-info">
+                                                <h4>Tiramisu</h4>
+                                                <p>85₺ • 4 sipariş</p>
+                                            </div>
+                                            <div class="popular-item-percentage">8%</div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="dashboard-widgets-row">
+                            <div class="dashboard-widget recent-orders">
+                                <div class="widget-header">
+                                    <h3>Son Siparişler</h3>
+                                    <a href="#" class="widget-link">Tümünü Gör</a>
+                                </div>
+                                <div class="widget-body">
+                                    <div class="table-responsive">
+                                        <table class="data-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Masa</th>
+                                                    <th>Ürünler</th>
+                                                    <th>Tutar</th>
+                                                    <th>Durum</th>
+                                                    <th>Zaman</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Masa 3</td>
+                                                    <td>Karışık Izgara, Ayran (2)</td>
+                                                    <td>330₺</td>
+                                                    <td><span class="status-badge completed">Tamamlandı</span></td>
+                                                    <td>15:42</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Masa 7</td>
+                                                    <td>Mantarlı Tavuk Sote, Tiramisu</td>
+                                                    <td>235₺</td>
+                                                    <td><span class="status-badge preparing">Hazırlanıyor</span></td>
+                                                    <td>15:38</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Masa 5</td>
+                                                    <td>Köfte Porsiyon, Mercimek Çorbası, Ayran</td>
+                                                    <td>265₺</td>
+                                                    <td><span class="status-badge pending">Beklemede</span></td>
+                                                    <td>15:35</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Masa 2</td>
+                                                    <td>Sezar Salata (2), Türk Kahvesi</td>
+                                                    <td>280₺</td>
+                                                    <td><span class="status-badge completed">Tamamlandı</span></td>
+                                                    <td>15:20</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="dashboard-widgets-row">
+                            <div class="dashboard-widget active-tables">
+                                <div class="widget-header">
+                                    <h3>Aktif Masalar</h3>
+                                    <a href="#" class="widget-link">Tümünü Gör</a>
+                                </div>
+                                <div class="widget-body">
+                                    <div class="tables-grid">
+                                        <div class="table-card active">
+                                            <div class="table-header">
+                                                <h4>Masa 1</h4>
+                                                <span class="table-time">45 dk</span>
+                                            </div>
+                                            <div class="table-body">
+                                                <div class="table-info">
+                                                    <p>3 ürün</p>
+                                                    <p>350₺</p>
+                                                </div>
+                                            </div>
+                                            <div class="table-footer">
+                                                <button class="btn btn-sm">Detay</button>
+                                                <button class="btn btn-sm btn-outline">Hesap</button>
+                                            </div>
+                                        </div>
+                                        <div class="table-card active">
+                                            <div class="table-header">
+                                                <h4>Masa 3</h4>
+                                                <span class="table-time">20 dk</span>
+                                            </div>
+                                            <div class="table-body">
+                                                <div class="table-info">
+                                                    <p>2 ürün</p>
+                                                    <p>210₺</p>
+                                                </div>
+                                            </div>
+                                            <div class="table-footer">
+                                                <button class="btn btn-sm">Detay</button>
+                                                <button class="btn btn-sm btn-outline">Hesap</button>
+                                            </div>
+                                        </div>
+                                        <div class="table-card active waiter-call">
+                                            <div class="table-header">
+                                                <h4>Masa 5</h4>
+                                                <span class="table-time">10 dk</span>
+                                            </div>
+                                            <div class="table-body">
+                                                <div class="table-info">
+                                                    <p>3 ürün</p>
+                                                    <p>265₺</p>
+                                                </div>
+                                                <div class="table-alert">
+                                                    <i class="fas fa-bell"></i> Garson Çağrısı
+                                                </div>
+                                            </div>
+                                            <div class="table-footer">
+                                                <button class="btn btn-sm">Detay</button>
+                                                <button class="btn btn-sm btn-outline">Hesap</button>
+                                            </div>
+                                        </div>
+                                        <div class="table-card active coal-request">
+                                            <div class="table-header">
+                                                <h4>Masa 7</h4>
+                                                <span class="table-time">30 dk</span>
+                                            </div>
+                                            <div class="table-body">
+                                                <div class="table-info">
+                                                    <p>4 ürün</p>
+                                                    <p>420₺</p>
+                                                </div>
+                                                <div class="table-alert">
+                                                    <i class="fas fa-fire"></i> Köz İsteği
+                                                </div>
+                                            </div>
+                                            <div class="table-footer">
+                                                <button class="btn btn-sm">Detay</button>
+                                                <button class="btn btn-sm btn-outline">Hesap</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Siparişler Sayfası -->
+                <section id="orders" class="dashboard-page">
+                    <div class="page-header">
+                        <h2>Siparişler</h2>
+                        <div class="page-actions">
+                            <div class="search-box">
+                                <input type="text" placeholder="Sipariş ara...">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            <div class="filter-dropdown">
+                                <button class="btn btn-outline">
+                                    <i class="fas fa-filter"></i> Filtrele
+                                </button>
+                                <div class="dropdown-content">
+                                    <a href="#" data-filter="all">Tüm Siparişler</a>
+                                    <a href="#" data-filter="pending">Bekleyen Siparişler</a>
+                                    <a href="#" data-filter="preparing">Hazırlanıyor</a>
+                                    <a href="#" data-filter="completed">Tamamlanan Siparişler</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="orders-tabs">
+                        <button class="tab-btn active" data-tab="all">Tümü</button>
+                        <button class="tab-btn" data-tab="pending">Beklemede (3)</button>
+                        <button class="tab-btn" data-tab="preparing">Hazırlanıyor (2)</button>
+                        <button class="tab-btn" data-tab="ready">Hazır (0)</button>
+                        <button class="tab-btn" data-tab="completed">Tamamlanan (10)</button>
+                    </div>
+                    
+                    <div class="orders-container">
+                        <div class="table-responsive">
+                            <table class="data-table orders-table">
+                                <thead>
+                                    <tr>
+                                        <th>Sipariş ID</th>
+                                        <th>Masa</th>
+                                        <th>Ürünler</th>
+                                        <th>Tutar</th>
+                                        <th>Durum</th>
+                                        <th>Zaman</th>
+                                        <th>İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>#12345</td>
+                                        <td>Masa 5</td>
+                                        <td>
+                                            <div class="order-items">
+                                                <p>1x Köfte Porsiyon</p>
+                                                <p>1x Mercimek Çorbası</p>
+                                                <p>1x Ayran</p>
+                                            </div>
+                                        </td>
+                                        <td>265₺</td>
+                                        <td><span class="status-badge pending">Beklemede</span></td>
+                                        <td>15:35</td>
+                                        <td>
+                                            <div class="action-buttons">
+                                                <button class="btn btn-sm">Detay</button>
+                                                <button class="btn btn-sm btn-primary">Hazırlanıyor</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#12344</td>
+                                        <td>Masa 7</td>
+                                        <td>
+                                            <div class="order-items">
+                                                <p>1x Mantarlı Tavuk Sote</p>
+                                                <p>1x Tiramisu</p>
+                                            </div>
+                                        </td>
+                                        <td>235₺</td>
+                                        <td><span class="status-badge preparing">Hazırlanıyor</span></td>
+                                        <td>15:38</td>
+                                        <td>
+                                            <div class="action-buttons">
+                                                <button class="btn btn-sm">Detay</button>
+                                                <button class="btn btn-sm btn-secondary">Hazır</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <!-- Daha fazla sipariş satırı eklenecek -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Menü Yönetimi Sayfası -->
+                <section id="menu" class="dashboard-page">
+                    <div class="page-header">
+                        <h2>Menü Yönetimi</h2>
+                        <div class="page-actions">
+                            <button class="btn btn-primary">
+                                <i class="fas fa-plus"></i> Yeni Ürün
+                            </button>
+                            <button class="btn btn-outline">
+                                <i class="fas fa-list"></i> Kategori Yönetimi
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-categories">
+                        <button class="category-tab active" data-category="all">Tümü</button>
+                        <button class="category-tab" data-category="izgara">Izgara</button>
+                        <button class="category-tab" data-category="ana-yemek">Ana Yemek</button>
+                        <button class="category-tab" data-category="salata">Salata</button>
+                        <button class="category-tab" data-category="corba">Çorba</button>
+                        <button class="category-tab" data-category="tatli">Tatlı</button>
+                        <button class="category-tab" data-category="icecek">İçecek</button>
+                    </div>
+                    
+                    <div class="menu-items-grid">
+                        <div class="menu-item-card">
+                            <div class="menu-item-image">
+                                <img src="../assets/images/menu/mixed-grill.jpg" alt="Karışık Izgara">
+                                <div class="menu-item-actions">
+                                    <button class="action-btn edit">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-btn delete">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="menu-item-details">
+                                <div class="menu-item-header">
+                                    <h3>Karışık Izgara</h3>
+                                    <div class="menu-item-status available"></div>
+                                </div>
+                                <p class="menu-item-description">Kuzu pirzola, dana antrikot, tavuk şiş ve köfte içeren özel ızgara tabağı</p>
+                                <div class="menu-item-footer">
+                                    <span class="menu-item-category">Izgara</span>
+                                    <span class="menu-item-price">280₺</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-item-card">
+                            <div class="menu-item-image">
+                                <img src="../assets/images/menu/kofte.jpg" alt="Köfte Porsiyon">
+                                <div class="menu-item-actions">
+                                    <button class="action-btn edit">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-btn delete">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="menu-item-details">
+                                <div class="menu-item-header">
+                                    <h3>Köfte Porsiyon</h3>
+                                    <div class="menu-item-status available"></div>
+                                </div>
+                                <p class="menu-item-description">8 adet kasap köfte, yanında bulgur pilavı ve ızgara sebze ile</p>
+                                <div class="menu-item-footer">
+                                    <span class="menu-item-category">Izgara</span>
+                                    <span class="menu-item-price">180₺</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-item-card">
+                            <div class="menu-item-image">
+                                <img src="../assets/images/menu/chicken-mushroom.jpg" alt="Mantarlı Tavuk Sote">
+                                <div class="menu-item-actions">
+                                    <button class="action-btn edit">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-btn delete">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="menu-item-details">
+                                <div class="menu-item-header">
+                                    <h3>Mantarlı Tavuk Sote</h3>
+                                    <div class="menu-item-status available"></div>
+                                </div>
+                                <p class="menu-item-description">Kremalı sos ile hazırlanan mantarlı tavuk sote</p>
+                                <div class="menu-item-footer">
+                                    <span class="menu-item-category">Ana Yemek</span>
+                                    <span class="menu-item-price">150₺</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Daha fazla menü öğesi eklenecek -->
+                    </div>
+                </section>
+                
+                <!-- Masa Yönetimi Sayfası -->
+                <section id="tables" class="dashboard-page">
+                    <div class="page-header">
+                        <h2>Masa Yönetimi</h2>
+                        <div class="page-actions">
+                            <button class="btn btn-primary">
+                                <i class="fas fa-plus"></i> Yeni Masa
+                            </button>
+                            <button class="btn btn-outline">
+                                <i class="fas fa-qrcode"></i> QR Kodları
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="tables-status-filter">
+                        <button class="status-btn active" data-status="all">Tümü (10)</button>
+                        <button class="status-btn" data-status="active">Aktif (6)</button>
+                        <button class="status-btn" data-status="available">Boş (4)</button>
+                    </div>
+                    
+                    <div class="tables-grid management">
+                        <div class="table-card active">
+                            <div class="table-header">
+                                <h4>Masa 1</h4>
+                                <div class="table-actions">
+                                    <button class="action-btn edit">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-btn qr">
+                                        <i class="fas fa-qrcode"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="table-body">
+                                <div class="table-status active">Aktif</div>
+                                <div class="table-info">
+                                    <p>3 ürün</p>
+                                    <p>350₺</p>
+                                </div>
+                                <p class="table-time">45 dk</p>
+                            </div>
+                            <div class="table-footer">
+                                <button class="btn btn-sm">Sipariş Detayı</button>
+                                <button class="btn btn-sm btn-outline">Hesap Al</button>
+                            </div>
+                        </div>
+                        
+                        <div class="table-card available">
+                            <div class="table-header">
+                                <h4>Masa 2</h4>
+                                <div class="table-actions">
+                                    <button class="action-btn edit">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-btn qr">
+                                        <i class="fas fa-qrcode"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="table-body">
+                                <div class="table-status available">Boş</div>
+                                <div class="table-info">
+                                    <p>0 ürün</p>
+                                    <p>0₺</p>
+                                </div>
+                            </div>
+                            <div class="table-footer">
+                                <button class="btn btn-sm btn-primary">Yeni Sipariş</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Daha fazla masa kartı eklenecek -->
+                    </div>
+                </section>
+                
+                <!-- Diğer sayfalar buraya eklenecek -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Modallar -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Ürün Düzenle</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="product-form">
+                    <div class="form-group">
+                        <label for="product-name">Ürün Adı</label>
+                        <input type="text" id="product-name" class="form-control" placeholder="Ürün adı" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="product-category">Kategori</label>
+                        <select id="product-category" class="form-control" required>
+                            <option value="">Kategori Seçin</option>
+                            <option value="izgara">Izgara</option>
+                            <option value="ana-yemek">Ana Yemek</option>
+                            <option value="salata">Salata</option>
+                            <option value="corba">Çorba</option>
+                            <option value="tatli">Tatlı</option>
+                            <option value="icecek">İçecek</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="product-price">Fiyat (₺)</label>
+                        <input type="number" id="product-price" class="form-control" placeholder="0.00" min="0" step="0.01" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="product-description">Açıklama</label>
+                        <textarea id="product-description" class="form-control" rows="3" placeholder="Ürün açıklaması"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="product-image">Görsel</label>
+                        <div class="image-upload">
+                            <input type="file" id="product-image" accept="image/*">
+                            <label for="product-image" class="upload-area">
+                                <div class="upload-content">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <p>Görsel seçmek için tıklayın veya sürükleyin</p>
+                                </div>
+                            </label>
+                            <div class="image-preview" id="image-preview"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="product-status">Durum</label>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="product-status" checked>
+                            <label for="product-status"></label>
+                            <span class="toggle-label">Aktif</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline">İptal</button>
+                        <button type="submit" class="btn btn-primary">Kaydet</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="notification" class="notification">
+        <div class="notification-icon">
+            <i class="fas fa-info-circle"></i>
+        </div>
+        <div class="notification-message">
+            <p id="notification-text"></p>
+        </div>
+    </div>
+
+    <script src="../scripts/supabase.js"></script>
+    <script src="../scripts/dashboard.js"></script>
+</body>
+</html>

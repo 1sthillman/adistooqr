@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menü | ADİSTOW QR</title>
+    <link rel="stylesheet" href="../styles/menu.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="menu-header">
+            <div class="restaurant-info">
+                <div class="restaurant-logo">
+                    <!-- Bu kısım dinamik olarak restaurant ID'ye göre güncellenecek -->
+                    <img id="restaurant-logo" src="" alt="Restaurant Logo">
+                </div>
+                <div class="restaurant-details">
+                    <h1 id="restaurant-name">Restaurant Adı</h1>
+                    <p id="restaurant-description">Restaurant Açıklaması</p>
+                </div>
+            </div>
+            <div class="menu-actions">
+                <div class="table-info">
+                    <p>Masa: <span id="table-number">--</span></p>
+                </div>
+                <button class="btn btn-primary" id="call-waiter">
+                    <i class="fas fa-bell"></i> Garson Çağır
+                </button>
+                <button class="btn btn-secondary" id="request-coal">
+                    <i class="fas fa-fire"></i> Köz İste
+                </button>
+            </div>
+        </header>
+
+        <!-- Menu Navigation -->
+        <nav class="menu-nav">
+            <div class="search-bar">
+                <input type="text" id="menu-search" placeholder="Menüde ara...">
+                <i class="fas fa-search"></i>
+            </div>
+            <div class="categories-container">
+                <div class="categories-scroll">
+                    <button class="category-btn active" data-category="all">Tümü</button>
+                    <!-- Kategoriler dinamik olarak JavaScript ile eklenecek -->
+                </div>
+            </div>
+        </nav>
+
+        <!-- Menu Content -->
+        <main class="menu-content">
+            <div class="menu-items">
+                <!-- Menü öğeleri dinamik olarak JavaScript ile eklenecek -->
+            </div>
+
+            <!-- Cart (Basket) -->
+            <div class="cart-container">
+                <div class="cart-header">
+                    <h2>Sepetim</h2>
+                    <button id="clear-cart" class="btn-text">Temizle</button>
+                </div>
+                <div id="cart-items" class="cart-items">
+                    <!-- Sepet öğeleri dinamik olarak JavaScript ile eklenecek -->
+                    <div class="empty-cart">
+                        <i class="fas fa-shopping-basket"></i>
+                        <p>Sepetiniz boş</p>
+                    </div>
+                </div>
+                <div class="cart-footer">
+                    <div class="cart-total">
+                        <p>Toplam:</p>
+                        <p id="cart-total-price">0.00₺</p>
+                    </div>
+                    <button id="place-order" class="btn btn-primary btn-lg btn-block" disabled>
+                        Sipariş Ver
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Product Detail Modal -->
+        <div id="product-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modal-product-title">Ürün Adı</h2>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-product-image">
+                        <img id="modal-product-image" src="" alt="Ürün Görseli">
+                    </div>
+                    <div class="modal-product-details">
+                        <p id="modal-product-description">Ürün açıklaması burada görünecek.</p>
+                        <div class="modal-product-price">
+                            <span id="modal-product-price">0.00₺</span>
+                        </div>
+                        <div class="modal-options">
+                            <!-- Ürüne özel seçenekler (porsiyon, acı seviyesi, vb.) -->
+                            <div class="option-group">
+                                <h3>Porsiyon</h3>
+                                <div class="option-buttons" id="portion-options">
+                                    <button class="option-btn active" data-value="normal">Normal</button>
+                                    <button class="option-btn" data-value="large">Büyük Boy (+15₺)</button>
+                                </div>
+                            </div>
+                            <div class="option-group">
+                                <h3>Acı Seviyesi</h3>
+                                <div class="option-buttons" id="spicy-options">
+                                    <button class="option-btn active" data-value="none">Acısız</button>
+                                    <button class="option-btn" data-value="mild">Az Acılı</button>
+                                    <button class="option-btn" data-value="hot">Acılı</button>
+                                    <button class="option-btn" data-value="extra">Çok Acılı</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-notes">
+                            <h3>Özel Not</h3>
+                            <textarea id="product-note" placeholder="Eklemek istediğiniz notlar..."></textarea>
+                        </div>
+                        <div class="modal-quantity">
+                            <h3>Adet</h3>
+                            <div class="quantity-control">
+                                <button id="decrease-quantity">-</button>
+                                <input type="number" id="product-quantity" value="1" min="1" max="10">
+                                <button id="increase-quantity">+</button>
+                            </div>
+                        </div>
+                        <button id="add-to-cart" class="btn btn-primary btn-lg btn-block">
+                            Sepete Ekle
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Confirmation Modal -->
+        <div id="order-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Sipariş Onayı</h2>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="order-details">
+                        <h3>Sipariş Detayları</h3>
+                        <div id="order-items" class="order-items">
+                            <!-- Sipariş öğeleri dinamik olarak JavaScript ile eklenecek -->
+                        </div>
+                        <div class="order-total">
+                            <p>Toplam Tutar:</p>
+                            <p id="order-total-price">0.00₺</p>
+                        </div>
+                        <div class="order-note">
+                            <label for="order-note-text">Sipariş Notu (isteğe bağlı)</label>
+                            <textarea id="order-note-text" rows="3" placeholder="Örneğin: sosu ayrı olsun"></textarea>
+                        </div>
+                    </div>
+                    <div class="order-actions">
+                        <button id="confirm-order" class="btn btn-primary btn-lg btn-block">
+                            Siparişi Onayla
+                        </button>
+                        <button id="cancel-order" class="btn btn-outline btn-lg btn-block">
+                            İptal
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Success Modal -->
+        <div id="success-modal" class="modal">
+            <div class="modal-content success-content">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h2>Siparişiniz Alındı!</h2>
+                <p>Siparişiniz başarıyla restorana iletildi.</p>
+                <p class="order-id">Sipariş No: <span id="order-id">12345</span></p>
+                <button id="close-success" class="btn btn-primary btn-lg btn-block">
+                    Tamam
+                </button>
+            </div>
+        </div>
+
+        <!-- Notification Toast -->
+        <div id="notification" class="notification">
+            <div class="notification-icon">
+                <i class="fas fa-info-circle"></i>
+            </div>
+            <div class="notification-message">
+                <p id="notification-text"></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="../scripts/menu.js"></script>
+</body>
+</html>

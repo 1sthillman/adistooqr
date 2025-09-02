@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kayıt Ol | ADİSTOW QR</title>
+    <link rel="stylesheet" href="../styles/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="logo">
+                    <h1>ADİSTOW</h1>
+                </div>
+                <h2>Hesap Oluştur</h2>
+                <p>QR menü sistemimize kayıt olarak müşterilerinize dijital menü deneyimi sunun</p>
+            </div>
+            
+            <form id="register-form" class="auth-form">
+                <div class="form-group">
+                    <label for="restaurant-name">Restoran Adı</label>
+                    <div class="input-group">
+                        <i class="fas fa-store"></i>
+                        <input type="text" id="restaurant-name" name="restaurant-name" class="form-control" placeholder="Restoran adınız" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">E-posta Adresi</label>
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="email" name="email" class="form-control" placeholder="E-posta adresiniz" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Telefon</label>
+                    <div class="input-group">
+                        <i class="fas fa-phone"></i>
+                        <input type="tel" id="phone" name="phone" class="form-control" placeholder="5XX XXX XX XX" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Şifre</label>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" name="password" class="form-control" placeholder="En az 8 karakter" required>
+                        <button type="button" class="toggle-password">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirm-password">Şifre Tekrar</label>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="confirm-password" name="confirm-password" class="form-control" placeholder="Şifrenizi tekrar girin" required>
+                        <button type="button" class="toggle-password">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="package-selection">
+                    <label>Paket Seçimi</label>
+                    <div class="package-options">
+                        <div class="package-option">
+                            <input type="radio" id="package-starter" name="package" value="starter" checked>
+                            <label for="package-starter">
+                                <div class="package-name">Başlangıç</div>
+                                <div class="package-price">1.500₺</div>
+                                <div class="package-detail">10 masa</div>
+                            </label>
+                        </div>
+                        <div class="package-option">
+                            <input type="radio" id="package-medium" name="package" value="medium">
+                            <label for="package-medium">
+                                <div class="package-name">Orta</div>
+                                <div class="package-price">2.500₺</div>
+                                <div class="package-detail">25 masa</div>
+                            </label>
+                        </div>
+                        <div class="package-option">
+                            <input type="radio" id="package-professional" name="package" value="professional">
+                            <label for="package-professional">
+                                <div class="package-name">Profesyonel</div>
+                                <div class="package-price">3.500₺</div>
+                                <div class="package-detail">50 masa</div>
+                            </label>
+                        </div>
+                        <div class="package-option">
+                            <input type="radio" id="package-enterprise" name="package" value="enterprise">
+                            <label for="package-enterprise">
+                                <div class="package-name">Kurumsal</div>
+                                <div class="package-price">4.500₺</div>
+                                <div class="package-detail">80 masa</div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="subscription-period">
+                    <label>Abonelik Süresi</label>
+                    <div class="period-options">
+                        <div class="period-option">
+                            <input type="radio" id="monthly" name="subscription-period" value="monthly" checked>
+                            <label for="monthly">
+                                <div class="period-name">Aylık</div>
+                            </label>
+                        </div>
+                        <div class="period-option">
+                            <input type="radio" id="yearly" name="subscription-period" value="yearly">
+                            <label for="yearly">
+                                <div class="period-name">Yıllık</div>
+                                <div class="period-discount">%38-46 İndirim</div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group terms">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <label for="terms">
+                        <a href="#" target="_blank">Kullanım şartlarını</a> ve 
+                        <a href="#" target="_blank">gizlilik politikasını</a> okudum ve kabul ediyorum
+                    </label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-block">Kayıt Ol</button>
+            </form>
+            
+            <div class="auth-footer">
+                <p>Zaten hesabınız var mı? <a href="login.html">Giriş Yapın</a></p>
+            </div>
+        </div>
+        
+        <div class="auth-background">
+            <div class="auth-info">
+                <h2>QR Menü ile İşletmenizi Dijitalleştirin</h2>
+                <p>ADİSTOW QR Menü sistemi ile müşterilerinize temassız, hızlı ve modern bir menü deneyimi sunun.</p>
+                <div class="auth-features">
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-qrcode"></i>
+                        </div>
+                        <div class="feature-text">
+                            <h3>Masa Bazlı QR Kodlar</h3>
+                            <p>Her masa için özel QR kodları oluşturabilir ve siparişleri kolayca takip edebilirsiniz.</p>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <div class="feature-text">
+                            <h3>Garson Çağırma</h3>
+                            <p>Müşterileriniz tek tıkla garson çağırabilir veya köz isteyebilirler.</p>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <div class="feature-text">
+                            <h3>Sipariş Yönetimi</h3>
+                            <p>Siparişleri anında görün ve yönetin.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="notification" class="notification">
+        <div class="notification-icon">
+            <i class="fas fa-info-circle"></i>
+        </div>
+        <div class="notification-message">
+            <p id="notification-text"></p>
+        </div>
+    </div>
+
+    <script src="../scripts/auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ödeme | ADİSTOW QR</title>
+    <link rel="stylesheet" href="../styles/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="logo"><h1>ADİSTOW</h1></div>
+                <h2>Ödeme Bilgileri</h2>
+                <p>Paket ve abonelik bilgilerinizi onaylayın</p>
+            </div>
+            
+            <div class="payment-summary" id="payment-summary">
+                <!-- Dinamik olarak paket ve fiyat gelecek -->
+            </div>
+
+            <form id="payment-form" class="auth-form">
+                <div class="form-group">
+                    <label for="card-name">Kart Üzerindeki İsim</label>
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="card-name" class="form-control" placeholder="Ad Soyad" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="card-number">Kart Numarası</label>
+                    <div class="input-group">
+                        <i class="fas fa-credit-card"></i>
+                        <input type="text" id="card-number" class="form-control" placeholder="XXXX XXXX XXXX XXXX" maxlength="19" required>
+                    </div>
+                </div>
+                <div class="form-group" style="display:flex; gap:1rem;">
+                    <div style="flex:1;">
+                        <label for="card-exp">Son Kullanma</label>
+                        <div class="input-group">
+                            <i class="fas fa-calendar"></i>
+                            <input type="text" id="card-exp" class="form-control" placeholder="AA/YY" maxlength="5" required>
+                        </div>
+                    </div>
+                    <div style="flex:1;">
+                        <label for="card-cvc">CVC</label>
+                        <div class="input-group">
+                            <i class="fas fa-shield-alt"></i>
+                            <input type="text" id="card-cvc" class="form-control" placeholder="XXX" maxlength="4" required>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Ödemeyi Tamamla</button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Ödemeniz Shopier güvencesiyle alınacaktır.</p>
+            </div>
+        </div>
+        <div class="auth-background">
+            <div class="auth-info">
+                <h2>Güvenli Ödeme</h2>
+                <p>Shopier ile 256-bit SSL şifreleme ile korunan ödeme altyapısı.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="notification" class="notification">
+        <div class="notification-icon"><i class="fas fa-info-circle"></i></div>
+        <div class="notification-message"><p id="notification-text"></p></div>
+    </div>
+    <script src="../scripts/payment.js"></script>
+</body>
+</html>

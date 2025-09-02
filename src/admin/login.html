@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yönetici Girişi | ADİSTOW QR</title>
+    <link rel="stylesheet" href="../styles/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="logo">
+                    <h1>ADİSTOW</h1>
+                </div>
+                <h2>Yönetici Girişi</h2>
+                <p>Restoran yönetim panelinize erişmek için giriş yapın</p>
+            </div>
+            
+            <form id="login-form" class="auth-form">
+                <div class="form-group">
+                    <label for="restaurant-id">Restaurant ID</label>
+                    <div class="input-group">
+                        <i class="fas fa-store"></i>
+                        <input type="text" id="restaurant-id" name="restaurant-id" class="form-control" placeholder="Restaurant ID'niz" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Şifre</label>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" name="password" class="form-control" placeholder="Şifreniz" required>
+                        <button type="button" class="toggle-password">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-options">
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember" name="remember">
+                        <label for="remember">Beni Hatırla</label>
+                    </div>
+                    <a href="#" class="forgot-password">Şifremi Unuttum</a>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-block">Giriş Yap</button>
+            </form>
+            
+            <div class="auth-footer">
+                <p>Henüz hesabınız yok mu? <a href="register.html">Kayıt Olun</a></p>
+            </div>
+        </div>
+        
+        <div class="auth-background">
+            <div class="auth-info">
+                <h2>QR Menü ile İşletmenizi Dijitalleştirin</h2>
+                <p>ADİSTOW QR Menü sistemi ile müşterilerinize temassız, hızlı ve modern bir menü deneyimi sunun.</p>
+                <div class="auth-features">
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-qrcode"></i>
+                        </div>
+                        <div class="feature-text">
+                            <h3>Kolay Erişim</h3>
+                            <p>Müşterileriniz masadaki QR kodu okutarak menünüze hızlıca erişebilirler.</p>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <div class="feature-text">
+                            <h3>Mobil Uyumlu</h3>
+                            <p>Tüm cihazlarda mükemmel çalışan responsive tasarım.</p>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="feature-text">
+                            <h3>Detaylı Raporlar</h3>
+                            <p>Müşteri alışkanlıklarını ve en popüler ürünlerinizi analiz edin.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="notification" class="notification">
+        <div class="notification-icon">
+            <i class="fas fa-info-circle"></i>
+        </div>
+        <div class="notification-message">
+            <p id="notification-text"></p>
+        </div>
+    </div>
+
+    <script src="../scripts/auth.js"></script>
+</body>
+</html>
