@@ -59,10 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Restaurant bilgilerini yükleme (Supabase’den çekilecek)
     const loadRestaurantInfo = async () => {
         try {
-            const { data: restaurantInfo, error } = await supabaseModule.restaurant.getRestaurantInfo(restaurantId);
-            if (error || !restaurantInfo) {
-                throw error || new Error('Restoran bulunamadı');
-            }
+            const restaurantInfo = await supabaseModule.restaurant.getRestaurantInfo(restaurantId);
             const { name, description, logo_url } = restaurantInfo;
             document.getElementById('restaurant-name').textContent = name;
             document.getElementById('restaurant-description').textContent = description || '';

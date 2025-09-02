@@ -157,16 +157,9 @@ const supabaseRestaurant = {
     try {
       const { data, error } = await supabaseClient
         .from('restaurants')
-        .select(`
-          *,
-          restaurant_subscriptions (
-            *,
-            subscription_packages (*)
-          )
-        `)
+        .select('id, name, description, logo_url')
         .eq('restaurant_id', restaurantId)
         .single();
-      
       if (error) throw error;
       return data;
     } catch (error) {
