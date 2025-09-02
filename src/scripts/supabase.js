@@ -4,14 +4,11 @@
 // import { createClient } from '@supabase/supabase-js'
 
 // Supabase client oluştur
-const createSupabaseClient = () => {
-  const supabaseUrl = 'https://kqbmcbpzojkcmbgjflsi.supabase.co';
-  const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtxYm1jYnB6b2prY21iZ2pmbHNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY0MTIzOTMsImV4cCI6MjA3MTk4ODM5M30.mc3K97HycaVTqaxKYSncE381HY9N13pubXlOeOXU-5s';
-  
-  return supabase.createClient(supabaseUrl, supabaseAnonKey);
-};
-
-const supabaseClient = createSupabaseClient();
+// Supabase Client Initialization
+// Assumes <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script> is loaded before this script
+const supabaseUrl = 'https://kqbmcbpzojkcmbgjflsi.supabase.co';
+const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtxYm1jYnB6b2prY21iZ2pmbHNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY0MTIzOTMsImV4cCI6MjA3MTk4ODM5M30.mc3K97HycaVTqaxKYSncE381HY9N13pubXlOeOXU-5s';
+const supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
 
 // Kimlik Doğrulama İşlemleri
 const supabaseAuth = {
