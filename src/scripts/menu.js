@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 title: item.name,
                 description: item.description,
                 price: item.price,
-                category: item.categories.name,
+                category: item.categories && item.categories.name ? item.categories.name : '',
                 image: item.image_url,
                 options: JSON.parse(item.options || '[]')
             }));
