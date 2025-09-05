@@ -73,13 +73,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Menüyü doğrudan Supabase ürünü tablosundan yükleyen fonksiyon
     const loadMenu = async () => {
         try {
-            const { data: items, error } = await supabaseClient
-                .from('products')
-                .select('*, categories(name)')
-                .eq('restaurant_id', restaurantId)
-                .order('sort_order', { ascending: true });
-            if (error) throw error;
-
+            // Supabase module ile ürünleri getirme
+            const items = await supabaseModule.menu.getMenuItems(restaurantId);
+            
             menuData = items.map(item => ({
                 id: item.id,
                 title: item.name,
@@ -88,15 +84,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 category: item.categories && item.categories.name ? item.categories.name : '',
                 image: item.image_url,
                 options: (() => {
-                    const optStr = item.options || '';
-                    if (optStr.trim().startsWith('[')) {
-                        try {
-                            return JSON.parse(optStr);
-                        } catch {
-                            // invalid JSON, fallback
-                        }
+                    const optsField = item.options;
+                    if (Array.isArray(optsField)) {
+                        return optsField;
+                    } else if (typeof optsField === 'string' && optsField.trim().startsWith('[')) {
+                        try { return JSON.parse(optsField); } catch {};
+                    } else if (typeof optsField === 'string') {
+                        return optsField.split(',').map(o => o.trim()).filter(Boolean);
                     }
-                    return optStr.split(',').map(o => o.trim()).filter(Boolean);
+                    return [];
                 })()
             }));
             categories = [...new Set(menuData.map(i => i.category))];
