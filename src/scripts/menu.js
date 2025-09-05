@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const loadMenu = async () => {
         try {
             const { data: items, error } = await supabaseClient
-                .from('products')
+                .from('menu_items')
                 .select('*, categories(name)')
                 .eq('restaurant_id', restaurantId)
                 .order('sort_order', { ascending: true });
