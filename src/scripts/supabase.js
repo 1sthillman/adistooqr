@@ -159,7 +159,7 @@ const supabaseRestaurant = {
       const { data, error } = await supabaseClient
         .from('restaurants')
         .select('id, name, address, logo_url')
-        .eq('restaurant_id', restaurantId)
+        .eq('id', restaurantId)
         .single();
       if (error) throw error;
       // Map address field to description for UI
