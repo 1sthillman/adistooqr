@@ -435,6 +435,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Siparişi onaylama
     const confirmOrder = async () => {
         try {
+            const totalPrice = parseFloat(cartTotalPrice.textContent.replace('₺',''));
             // Supabase ile sipariş oluşturma
             const orderId = await supabaseModule.orders.createOrder(restaurantId, tableId, cartItems, totalPrice, orderNoteText.value.trim());
             document.getElementById('order-id').textContent = orderId;

@@ -584,7 +584,7 @@ const supabaseCalls = {
   async createCall(restaurantId, tableId, callType) {
     try {
       const { data, error } = await supabaseClient
-        .from('calls')
+        .from('waiter_calls')
         .insert([{
           restaurant_id: restaurantId,
           table_id: tableId,
@@ -606,7 +606,7 @@ const supabaseCalls = {
   async getCalls(restaurantId, status = 'pending') {
     try {
       const { data, error } = await supabaseClient
-        .from('calls')
+        .from('waiter_calls')
         .select(`
           *,
           tables (id, number, name)
@@ -695,7 +695,7 @@ const supabaseRealtime = {
       .on('postgres_changes', { 
         event: 'INSERT', 
         schema: 'public', 
-        table: 'calls',
+        table: 'waiter_calls',
         filter: `restaurant_id=eq.${restaurantId}`
       }, (payload) => {
         callback(payload.new);
