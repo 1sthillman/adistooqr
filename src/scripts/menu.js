@@ -88,15 +88,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 category: item.categories && item.categories.name ? item.categories.name : '',
                 image: item.image_url,
                 options: (() => {
-                    let opts = [];
-                    if (item.options) {
+                    const optStr = item.options || '';
+                    if (optStr.trim().startsWith('[')) {
                         try {
-                            opts = JSON.parse(item.options);
+                            return JSON.parse(optStr);
                         } catch {
-                            opts = item.options.split(',').map(o => o.trim()).filter(Boolean);
+                            // invalid JSON, fallback
                         }
                     }
-                    return opts;
+                    return optStr.split(',').map(o => o.trim()).filter(Boolean);
                 })()
             }));
             categories = [...new Set(menuData.map(i => i.category))];
