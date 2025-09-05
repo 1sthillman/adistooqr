@@ -87,7 +87,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 price: item.price,
                 category: item.categories && item.categories.name ? item.categories.name : '',
                 image: item.image_url,
-                options: JSON.parse(item.options || '[]')
+                options: (() => {
+                    let opts = [];
+                    if (item.options) {
+                        try {
+                            opts = JSON.parse(item.options);
+                        } catch {
+                            opts = item.options.split(',').map(o => o.trim()).filter(Boolean);
+                        }
+                    }
+                    return opts;
+                })()
             }));
             categories = [...new Set(menuData.map(i => i.category))];
             renderCategories();
@@ -478,8 +488,24 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('decrease-quantity').addEventListener('click', () => updateCartItemQuantity(currentProduct.id, -1));
     document.getElementById('increase-quantity').addEventListener('click', () => updateCartItemQuantity(currentProduct.id, 1));
     document.getElementById('menu-search').addEventListener('input', (e) => searchMenu(e.target.value));
-    document.getElementById('call-waiter').addEventListener('click', () => showNotification('Mekanbazı çağrıldı!', 'info'));
-    document.getElementById('request-coal').addEventListener('click', () => showNotification('Kömür talebi gönderildi!', 'info'));
+    document.getElementById('call-waiter').addEventListener('click', async () => {
+        try {
+            await supabaseModule.calls.createCall(restaurantId, tableId, 'waiter');
+            showNotification('Garson çağrıldı!', 'success');
+        } catch (err) {
+            console.error('Garson çağrı hatası:', err);
+            showNotification('Garson çağrı gönderilemedi', 'error');
+        }
+    });
+    document.getElementById('request-coal').addEventListener('click', async () => {
+        try {
+            await supabaseModule.calls.createCall(restaurantId, tableId, 'coal');
+            showNotification('Köz talebi gönderildi!', 'success');
+        } catch (err) {
+            console.error('Köz talebi hatası:', err);
+            showNotification('Köz talebi gönderilemedi', 'error');
+        }
+    });
     document.getElementById('clear-cart').addEventListener('click', () => {
         cartItems = [];
         updateCart();
