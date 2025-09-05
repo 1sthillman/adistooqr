@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const { name, address, logo_url } = restaurantInfo;
             document.getElementById('restaurant-name').textContent = name;
             document.getElementById('restaurant-description').textContent = address || '';
-            document.getElementById('restaurant-logo').src = logo_url || '../assets/images/placeholder-logo.png';
+            document.getElementById('restaurant-logo').src = logo_url || 'https://via.placeholder.com/100';
         } catch (err) {
             console.error('Restaurant bilgileri yüklenirken hata oluştu:', err);
             showNotification('Restoran bilgileri alınamadı', 'error');
@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
             menuItem.className = 'menu-item';
             menuItem.innerHTML = `
                 <div class="menu-item-image">
-                    <img src="${item.image || '../assets/images/menu/placeholder.jpg'}" alt="${item.title}">
+                    <img src="${item.image || 'https://via.placeholder.com/150'}" alt="${item.title}">
                 </div>
                 <div class="menu-item-details">
                     <div class="menu-item-header">
@@ -437,8 +437,8 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const totalPrice = parseFloat(cartTotalPrice.textContent.replace('₺',''));
             // Supabase ile sipariş oluşturma
-            const orderId = await supabaseModule.orders.createOrder(restaurantId, tableId, cartItems, totalPrice, orderNoteText.value.trim());
-            document.getElementById('order-id').textContent = orderId;
+            const order = await supabaseModule.orders.createOrder(restaurantId, tableId, cartItems, totalPrice, orderNoteText.value.trim());
+            document.getElementById('order-id').textContent = order.id;
             
             // Sepeti temizle
             cartItems = [];

@@ -473,28 +473,28 @@ const supabaseOrders = {
   },
   
   // Sipariş oluşturma
-  async createOrder(orderData) {
+  async createOrder(restaurantId, tableId, items, totalAmount, note = '') {
     try {
       // Önce sipariş oluştur
-      const { data: orderData, error: orderError } = await supabaseClient
+      const { data: order, error: orderError } = await supabaseClient
         .from('orders')
-        .insert([{
-          restaurant_id: orderData.restaurantId,
-          table_id: orderData.tableId,
-          total_amount: orderData.totalAmount,
-          status: 'pending'
-        }])
-        .select()
-        .single();
-      
+        .insert([{ 
+            restaurant_id: restaurantId,
+            table_id: tableId,
+            total_amount: totalAmount,
+            note: note,
+            status: 'pending'
+           }])
+          .select()
+          .single();
       if (orderError) throw orderError;
       
       // Sipariş öğelerini ekle
-      for (const item of orderData.items) {
+      for (const item of items) {
         const { data: orderItemData, error: itemError } = await supabaseClient
           .from('order_items')
-          .insert([{
-            order_id: orderData.id,
+          .insert([{ 
+            order_id: order.id,
             menu_item_id: item.productId,
             quantity: item.quantity,
             unit_price: item.price,
@@ -503,7 +503,6 @@ const supabaseOrders = {
           }])
           .select()
           .single();
-        
         if (itemError) throw itemError;
         
         // Sipariş öğesi seçeneklerini ekle
@@ -552,7 +551,7 @@ const supabaseOrders = {
         }
       }
       
-      return orderData;
+      return order;
     } catch (error) {
       console.error('Sipariş oluşturulamadı:', error);
       throw error;
@@ -584,11 +583,11 @@ const supabaseCalls = {
   async createCall(restaurantId, tableId, callType) {
     try {
       const { data, error } = await supabaseClient
-        .from('waiter_calls')
+        .from('calls')
         .insert([{
           restaurant_id: restaurantId,
           table_id: tableId,
-          call_type: callType,
+          type: callType,
           status: 'pending'
         }])
         .select()
@@ -606,7 +605,7 @@ const supabaseCalls = {
   async getCalls(restaurantId, status = 'pending') {
     try {
       const { data, error } = await supabaseClient
-        .from('waiter_calls')
+        .from('calls')
         .select(`
           *,
           tables (id, number, name)
@@ -649,7 +648,7 @@ function subscribeWaiterCalls(restaurantId, onInsert) {
     .on('postgres_changes', {
       event: 'INSERT',
       schema: 'public',
-      table: 'waiter_calls',
+      table: 'calls',
       filter: `restaurant_id=eq.${restaurantId}`
     }, payload => onInsert(payload.new))
     .subscribe();
@@ -695,7 +694,7 @@ const supabaseRealtime = {
       .on('postgres_changes', { 
         event: 'INSERT', 
         schema: 'public', 
-        table: 'waiter_calls',
+        table: 'calls',
         filter: `restaurant_id=eq.${restaurantId}`
       }, (payload) => {
         callback(payload.new);
