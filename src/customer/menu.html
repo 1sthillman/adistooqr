@@ -13,8 +13,8 @@
         <header class="menu-header">
             <div class="restaurant-info">
                 <div class="restaurant-logo">
-                    <!-- Restoran adı modern bir metin olarak gösteriliyor -->
-                    <h1 id="restaurant-name" class="logo-text">Restaurant Adı</h1>
+                    <!-- Bu kısım dinamik olarak restaurant ID'ye göre güncellenecek -->
+                    <img id="restaurant-logo" src="" alt="Restaurant Logo">
                 </div>
                 <div class="restaurant-details">
                     <h1 id="restaurant-name">Restaurant Adı</h1>
@@ -22,6 +22,9 @@
                 </div>
             </div>
             <div class="menu-actions">
+                <div class="table-info">
+                    <p>Masa: <span id="table-number">--</span></p>
+                </div>
                 <button class="btn btn-primary" id="call-waiter">
                     <i class="fas fa-bell"></i> Garson Çağır
                 </button>
@@ -51,11 +54,27 @@
                 <!-- Menü öğeleri dinamik olarak JavaScript ile eklenecek -->
             </div>
 
-            <!-- Cart (Basket) -->
+            <!-- Mobilde sepeti açma butonu -->
+            <div class="mobile-cart-button">
+                <button id="open-cart" class="btn-cart-toggle">
+                    <i class="fas fa-shopping-basket"></i>
+                    <span id="cart-item-count">0</span>
+                </button>
+            </div>
+
+        <!-- Cart Overlay -->
+        <div class="cart-overlay"></div>
+
+        <!-- Cart (Basket) -->
             <div class="cart-container">
                 <div class="cart-header">
                     <h2>Sepetim</h2>
-                    <button id="clear-cart" class="btn-text">Temizle</button>
+                    <div class="cart-controls">
+                        <button id="clear-cart" class="btn-text">Temizle</button>
+                        <button id="close-cart" class="btn-text mobile-only">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
                 </div>
                 <div id="cart-items" class="cart-items">
                     <!-- Sepet öğeleri dinamik olarak JavaScript ile eklenecek -->

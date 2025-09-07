@@ -25,6 +25,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const callWaiterButton = document.getElementById('call-waiter');
     const requestCoalButton = document.getElementById('request-coal');
     const clearCartButton = document.getElementById('clear-cart');
+    const openCartButton = document.getElementById('open-cart');
+    const closeCartButton = document.getElementById('close-cart');
+    const cartOverlay = document.querySelector('.cart-overlay');
+    const cartContainer = document.querySelector('.cart-container');
+    const cartItemCount = document.getElementById('cart-item-count');
 
     // Modal elementleri
     const productModal = document.getElementById('product-modal');
@@ -290,6 +295,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Sepeti güncelleme
     const updateCart = () => {
+        // Sepetteki ürün sayısını güncelle (mobil için)
+        if (cartItemCount) {
+            cartItemCount.textContent = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+        }
+        
         if (cartItems.length === 0) {
             cartItemsContainer.innerHTML = `
                 <div class="empty-cart">
@@ -497,11 +507,35 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 3000);
     };
 
+    // Sepeti açma/kapama fonksiyonu
+    const toggleCart = (show) => {
+        if (show) {
+            cartContainer.classList.add('open');
+            cartOverlay.classList.add('open');
+            document.body.style.overflow = 'hidden'; // Sayfanın scroll'unu engelleme
+        } else {
+            cartContainer.classList.remove('open');
+            cartOverlay.classList.remove('open');
+            document.body.style.overflow = ''; // Scroll'u tekrar etkinleştir
+        }
+    };
+
     // Event listeners
     document.getElementById('add-to-cart').addEventListener('click', addToCart);
     document.getElementById('decrease-quantity').addEventListener('click', () => updateCartItemQuantity(currentProduct.id, -1));
     document.getElementById('increase-quantity').addEventListener('click', () => updateCartItemQuantity(currentProduct.id, 1));
     document.getElementById('menu-search').addEventListener('input', (e) => searchMenu(e.target.value));
+    
+    // Mobil sepet butonları
+    if (openCartButton) {
+        openCartButton.addEventListener('click', () => toggleCart(true));
+    }
+    if (closeCartButton) {
+        closeCartButton.addEventListener('click', () => toggleCart(false));
+    }
+    if (cartOverlay) {
+        cartOverlay.addEventListener('click', () => toggleCart(false));
+    }
     document.getElementById('call-waiter').addEventListener('click', async () => {
         try {
             // Önce bildirim göster
