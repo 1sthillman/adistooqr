@@ -260,15 +260,12 @@ document.addEventListener('DOMContentLoaded', () => {
         let priceAddition = 0;
         const selectedOptions = [];
         
-        // Eğer seçenek varsa ve hiçbiri seçilmediyse kullanıcıya bildir
+        // Seçeneklerin olup olmadığını kontrol et
         const dynamicOptionsContainer = document.getElementById('dynamic-options');
         const hasOptions = dynamicOptionsContainer && dynamicOptionsContainer.children.length > 0;
         const hasSelectedOptions = Object.keys(selectedDynamicOptions).length > 0;
         
-        if (hasOptions && !hasSelectedOptions) {
-            showNotification('Lütfen bir seçenek seçin', 'warning');
-            return;
-        }
+        // Artık seçenek seçmek zorunlu değil, kullanıcı seçenek olmadan da devam edebilir
         
         for (const key in selectedDynamicOptions) {
             const val = selectedDynamicOptions[key];
