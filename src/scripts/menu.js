@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let categories = [];
 
     // DOM elementlerini seçme
-    const tableNumberElement = document.getElementById('table-number');
+    // Masa numarası göstergesi kaldırıldı
     const menuItemsContainer = document.querySelector('.menu-items');
     const categoriesContainer = document.querySelector('.categories-scroll');
     const cartItemsContainer = document.getElementById('cart-items');
@@ -52,8 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentProduct = null;
     let selectedDynamicOptions = {}; // dynamic options only
 
-    // Başlangıç değerlerini ayarlama
-    tableNumberElement.textContent = tableId;
+    // Masa numarası kullanım kodu kaldırıldı
 
     // Restaurant bilgilerini yükleme (Supabase’den çekilecek)
     const loadRestaurantInfo = async () => {
