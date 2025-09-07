@@ -272,11 +272,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Sepete öğe ekleme
     const addToCart = () => {
         if (!currentProduct) return;
-        
         const quantity = parseInt(productQuantityInput.value);
         const notes = productNoteInput.value.trim();
-        const portionPrice = selectedPortion === 'large' ? 15 : 0;
-        const totalPrice = (currentProduct.price + portionPrice) * quantity;
+        // Dinamik seçenek fiyat eklemeleri
+        let priceAddition = 0;
+        const selectedOptions = [];
+        for (const key in selectedDynamicOptions) {
+            const val = selectedDynamicOptions[key];
+            selectedOptions.push(val.value || val);
+            priceAddition += val.price || 0;
+        }
+        const totalPrice = (currentProduct.price + priceAddition) * quantity;
         
         // Sepet öğesi oluştur
         const cartItem = {
@@ -284,9 +290,8 @@ document.addEventListener('DOMContentLoaded', () => {
             productId: currentProduct.id,
             title: currentProduct.title,
             price: currentProduct.price,
-            portion: selectedPortion,
-            portionPrice: portionPrice,
-            spicyLevel: selectedSpicyLevel,
+            options: selectedOptions,
+            optionsPrice: priceAddition,
             quantity: quantity,
             notes: notes,
             totalPrice: totalPrice
