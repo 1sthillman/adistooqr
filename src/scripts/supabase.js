@@ -594,7 +594,7 @@ const supabaseCalls = {
   async createCall(restaurantId, tableId, callType) {
     try {
       const { data, error } = await supabaseClient
-        .from('calls')
+        .from('waiter_calls')
         .insert([{ 
           restaurant_id: restaurantId,
           table_id: tableId,
@@ -616,7 +616,7 @@ const supabaseCalls = {
   async getCalls(restaurantId, status = 'pending') {
     try {
       const { data, error } = await supabaseClient
-        .from('calls')
+        .from('waiter_calls')
         .select(`
           *,
           tables (id, number, name)
@@ -637,7 +637,7 @@ const supabaseCalls = {
   async updateCallStatus(callId, status) {
     try {
       const { data, error } = await supabaseClient
-        .from('calls')
+        .from('waiter_calls')
         .update({ status })
         .eq('id', callId)
         .select()
@@ -649,6 +649,21 @@ const supabaseCalls = {
       console.error('Çağrı durumu güncellenemedi:', error);
       throw error;
     }
+  },
+  
+  // Yeni çağrıları dinleme
+  subscribeToNewCalls(restaurantId, callback) {
+    return supabaseClient
+      .channel('waiter_calls-channel')
+      .on('postgres_changes', { 
+        event: 'INSERT', 
+        schema: 'public', 
+        table: 'waiter_calls',
+        filter: `restaurant_id=eq.${restaurantId}`
+      }, (payload) => {
+        callback(payload.new);
+      })
+      .subscribe();
   }
 };
 
@@ -692,21 +707,6 @@ const supabaseRealtime = {
         event: 'UPDATE', 
         schema: 'public', 
         table: 'orders' 
-      }, (payload) => {
-        callback(payload.new);
-      })
-      .subscribe();
-  },
-  
-  // Yeni çağrıları dinleme
-  subscribeToNewCalls(restaurantId, callback) {
-    return supabaseClient
-      .channel('calls-channel')
-      .on('postgres_changes', { 
-        event: 'INSERT', 
-        schema: 'public', 
-        table: 'calls',
-        filter: `restaurant_id=eq.${restaurantId}`
       }, (payload) => {
         callback(payload.new);
       })
