@@ -108,6 +108,9 @@ class Particle {
 function setup() {
   let canvas = createCanvas(windowWidth, windowHeight);
   canvas.parent('background-canvas');
+  canvas.style('display', 'block');
+  canvas.style('position', 'absolute');
+  canvas.style('z-index', '0');
   for (let i = 0; i < opt.particles; i++) {
     particles.push(new Particle(Math.random() * width, Math.random() * height));
   }

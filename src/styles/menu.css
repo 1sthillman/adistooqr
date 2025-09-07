@@ -74,12 +74,12 @@ body {
 }
 
 #background-canvas {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1;
+    z-index: 0;
 }
 
 /* Temel Tipografi */
@@ -216,12 +216,13 @@ a:hover {
     min-height: 100%;
     display: flex;
     flex-direction: column;
-    background-color: var(--gray-900);
+    position: relative;
+    background: transparent;
 }
 
 /* Header */
 .menu-header {
-    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
     color: var(--white);
     padding: 0.15rem 0.4rem;
     position: sticky;
@@ -363,6 +364,8 @@ a:hover {
     padding: 1rem;
     overflow: hidden;
     height: calc(100vh - 200px);
+    position: relative;
+    z-index: 1;
 }
 
 .menu-items {
@@ -372,10 +375,12 @@ a:hover {
     grid-template-columns: repeat(2, 1fr); /* iki sütun */
     gap: 1.5rem;
     align-content: start;
+    position: relative;
+    z-index: 1;
 }
 
 .menu-item {
-    background-color: var(--gray-900);
+    background-color: rgba(15, 23, 42, 0.7);
     border-radius: var(--border-radius-lg);
     overflow: hidden;
     box-shadow: 0 2px 6px rgba(0,0,0,.4);
@@ -385,6 +390,7 @@ a:hover {
     border: 1px solid var(--gray-700);
     max-width: 100%;
     min-height: 180px;
+    backdrop-filter: blur(5px);
 }
 
 .menu-item:hover {
@@ -464,7 +470,7 @@ a:hover {
 
 /* Cart */
 .cart-container {
-    background-color: var(--gray-900);
+    background-color: rgba(15, 23, 42, 0.8);
     border-radius: var(--border-radius-lg);
     box-shadow: var(--shadow-md);
     display: flex;
@@ -472,6 +478,7 @@ a:hover {
     height: 100%;
     border: 1px solid var(--border-color);
     overflow: hidden;
+    backdrop-filter: blur(5px);
 }
 
 .cart-header {
