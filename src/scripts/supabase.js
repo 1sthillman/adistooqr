@@ -593,11 +593,23 @@ const supabaseCalls = {
   // Çağrı oluşturma
   async createCall(restaurantId, tableId, callType) {
     try {
+      // Masanın numarasını ve adını alıyoruz
+      const { data: tableData, error: tableError } = await supabaseClient
+        .from('tables')
+        .select('table_number, name')
+        .eq('id', tableId)
+        .single();
+      if (tableError) throw tableError;
+      const table_number = tableData.table_number;
+      const table_name = tableData.name;
+      // Çağrı kaydı oluşturuyoruz
       const { data, error } = await supabaseClient
         .from('waiter_calls')
         .insert([{ 
           restaurant_id: restaurantId,
           table_id: tableId,
+          table_number,
+          table_name,
           call_type: callType,
           status: 'pending'
         }])
