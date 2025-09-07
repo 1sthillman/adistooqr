@@ -228,6 +228,13 @@ a:hover {
     object-fit: cover;
 }
 
+.logo-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #00ffc6;
+    margin: 0;
+}
+
 .restaurant-details h1 {
     font-size: 1.4rem;
     margin-bottom: 0.25rem;
