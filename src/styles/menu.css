@@ -614,7 +614,7 @@ a:hover {
     margin: 2rem auto;
     padding: 0;
     width: 90%;
-    max-width: 800px;
+    max-width: 600px;
     border-radius: var(--border-radius-lg);
     box-shadow: 0 8px 20px rgba(0,0,0,0.6);
     overflow: hidden;
@@ -716,16 +716,38 @@ a:hover {
     cursor: pointer;
     transition: all var(--transition-speed) var(--transition-function);
     color: var(--gray-300);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.option-btn:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    pointer-events: none;
 }
 
 .option-btn:hover {
     border-color: var(--primary-color);
+    color: var(--white);
+}
+
+.option-btn:hover:before {
+    transform: translateX(0);
 }
 
 .option-btn.active {
     background: linear-gradient(135deg,var(--primary-dark),var(--primary-color));
     color: var(--white);
     border-color: transparent;
+    box-shadow: 0 0 10px rgba(79, 209, 197, 0.5);
 }
 
 .modal-notes textarea {
@@ -1093,8 +1115,10 @@ a:hover {
     /* Ürün modalı mobil uyumluluğu */
     .modal-content {
         width: 95%;
-        max-height: 90vh;
+        max-width: 500px;
+        max-height: 80vh;
         overflow-y: auto;
+        margin: 10% auto;
     }
     
     .modal-body {

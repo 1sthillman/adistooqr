@@ -234,9 +234,8 @@ document.addEventListener('DOMContentLoaded', () => {
             groupDiv.appendChild(title);
             groupDiv.appendChild(buttonsDiv);
             dynamicOptionsContainer.appendChild(groupDiv);
-            // Varsayılan ilk seçeneği seç
-            const firstBtn = buttonsDiv.querySelector('button');
-            if (firstBtn) firstBtn.click();
+            // Varsayılan olarak hiçbir seçenek seçilmemiş olacak
+            // Kullanıcının manuel olarak seçmesi gerekiyor
         }
         
         // Modalı göster
@@ -260,6 +259,17 @@ document.addEventListener('DOMContentLoaded', () => {
         // Dinamik seçenek fiyat eklemeleri
         let priceAddition = 0;
         const selectedOptions = [];
+        
+        // Eğer seçenek varsa ve hiçbiri seçilmediyse kullanıcıya bildir
+        const dynamicOptionsContainer = document.getElementById('dynamic-options');
+        const hasOptions = dynamicOptionsContainer && dynamicOptionsContainer.children.length > 0;
+        const hasSelectedOptions = Object.keys(selectedDynamicOptions).length > 0;
+        
+        if (hasOptions && !hasSelectedOptions) {
+            showNotification('Lütfen bir seçenek seçin', 'warning');
+            return;
+        }
+        
         for (const key in selectedDynamicOptions) {
             const val = selectedDynamicOptions[key];
             selectedOptions.push(val.value || val);
