@@ -891,13 +891,15 @@ a:hover {
     display: flex;
     align-items: center;
     background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-    padding: 1rem 1.5rem;
+    padding: 1.2rem 1.8rem;
     border-radius: var(--border-radius-lg);
-    box-shadow: 0 6px 15px rgba(0,0,0,.6);
+    box-shadow: 0 8px 20px rgba(0,0,0,.7);
     opacity: 0;
     z-index: 1000;
     transition: transform 0.3s ease-out, opacity 0.3s ease-out;
     color: var(--white);
+    min-width: 280px;
+    text-align: center;
 }
 
 .notification.show {
@@ -907,7 +909,7 @@ a:hover {
 
 .notification-icon {
     margin-right: 1rem;
-    font-size: 1.5rem;
+    font-size: 2rem;
     color: var(--primary-light);
 }
 
@@ -923,8 +925,35 @@ a:hover {
     color: var(--error);
 }
 
+.notification-icon.info {
+    color: var(--info);
+}
+
 .notification-message p {
     margin-bottom: 0;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+/* Bildirim tipleri için arka plan renkleri */
+.notification.success {
+    background: linear-gradient(135deg, #065f46 0%, #047857 100%);
+    box-shadow: 0 8px 20px rgba(4, 120, 87, 0.5);
+}
+
+.notification.error {
+    background: linear-gradient(135deg, #991b1b 0%, #dc2626 100%);
+    box-shadow: 0 8px 20px rgba(220, 38, 38, 0.5);
+}
+
+.notification.warning {
+    background: linear-gradient(135deg, #92400e 0%, #f59e0b 100%);
+    box-shadow: 0 8px 20px rgba(245, 158, 11, 0.5);
+}
+
+.notification.info {
+    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.5);
 }
 
 /* Animasyonlar */

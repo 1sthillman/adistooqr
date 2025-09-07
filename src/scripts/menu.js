@@ -497,14 +497,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Bildirim gösterme
     const showNotification = (message, type) => {
-        notificationText.textContent = message;
+        // Bildirim içeriğini hazırla
+        let icon = '';
+        switch(type) {
+            case 'success':
+                icon = '<i class="fas fa-check-circle notification-icon success"></i>';
+                break;
+            case 'error':
+                icon = '<i class="fas fa-exclamation-circle notification-icon error"></i>';
+                break;
+            case 'warning':
+                icon = '<i class="fas fa-exclamation-triangle notification-icon warning"></i>';
+                break;
+            case 'info':
+                icon = '<i class="fas fa-info-circle notification-icon info"></i>';
+                break;
+        }
+        
+        // Bildirim içeriğini ayarla
+        notification.innerHTML = `
+            ${icon}
+            <div class="notification-message">
+                <p>${message}</p>
+            </div>
+        `;
+        
+        // Bildirim sınıflarını ayarla
         notification.className = 'notification';
         notification.classList.add(type);
-        notification.style.display = 'block';
+        notification.classList.add('show');
+        
+        // Zamanlayıcı ile bildirimi kapat
         setTimeout(() => {
-            notification.style.display = 'none';
-            notification.className = 'notification'; // Reset class
-        }, 3000);
+            notification.classList.remove('show');
+            setTimeout(() => {
+                notification.className = 'notification'; // Reset class
+            }, 300); // Geçiş animasyonu tamamlandıktan sonra
+        }, 5000); // Bildirim 5 saniye görünür kalacak
     };
 
     // Sepeti açma/kapama fonksiyonu
