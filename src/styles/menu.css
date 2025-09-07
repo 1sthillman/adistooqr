@@ -68,9 +68,18 @@ html, body {
 body {
     font-family: var(--font-family);
     color: var(--white);
-    background: radial-gradient(circle at top left, #111827 0%, #0b1120 100%);
+    background: black;
     line-height: 1.6;
     overflow-x: hidden;
+}
+
+#background-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
 }
 
 /* Temel Tipografi */
