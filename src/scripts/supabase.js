@@ -495,7 +495,7 @@ const supabaseOrders = {
           .from('order_items')
           .insert([{ 
             order_id: order.id,
-            product_id: item.productId,
+            menu_item_id: item.productId,
             quantity: item.quantity,
             unit_price: item.price,
             total_price: item.totalPrice,
