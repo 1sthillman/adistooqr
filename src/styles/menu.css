@@ -228,13 +228,6 @@ a:hover {
     object-fit: cover;
 }
 
-.logo-text {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #00ffc6;
-    margin: 0;
-}
-
 .restaurant-details h1 {
     font-size: 1.4rem;
     margin-bottom: 0.25rem;
@@ -862,13 +855,12 @@ a:hover {
     animation: pulse 1.5s ease-in-out;
 }
 
+.order-content {
+    background-color: #0f1522;
+}
 .order-id {
-    margin: 1.5rem 0;
-    padding: 0.75rem;
-    background-color: var(--gray-200);
-    border-radius: var(--border-radius-md);
-    font-size: 1.1rem;
-    font-weight: 600;
+    background-color: rgba(255,255,255,0.1);
+    color: #fff;
 }
 
 /* Notification */
