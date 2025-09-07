@@ -50,10 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Seçim takibi için değişkenler
     let currentProduct = null;
-    let selectedPortion = 'normal';
-    let selectedSpicyLevel = 'none';
-    // At top of file, declare dynamic options state
-    let selectedDynamicOptions = {};
+    let selectedDynamicOptions = {}; // dynamic options only
 
     // Başlangıç değerlerini ayarlama
     tableNumberElement.textContent = tableId;
@@ -190,8 +187,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Ürün modalını açma
     const openProductModal = async (product) => {
         currentProduct = product;
-        selectedPortion = 'normal';
-        selectedSpicyLevel = 'none';
         selectedDynamicOptions = {};
         
         // Modal içeriğini güncelle
@@ -202,8 +197,6 @@ document.addEventListener('DOMContentLoaded', () => {
         productQuantityInput.value = 1;
         productNoteInput.value = '';
         
-        // Seçenekleri sıfırla
-        resetOptions();
         // Ürün tablosundaki options alanından seçenekleri oluştur
         const dynamicOptionsContainer = document.getElementById('dynamic-options');
         dynamicOptionsContainer.innerHTML = '';
@@ -238,27 +231,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Modalı göster
         productModal.style.display = 'block';
         document.body.style.overflow = 'hidden';
-    };
-
-    // Opsiyon seçimi resetleme
-    const resetOptions = () => {
-        // Porsiyon seçeneklerini sıfırla
-        const portionOptions = document.querySelectorAll('#portion-options .option-btn');
-        portionOptions.forEach(option => {
-            option.classList.remove('active');
-            if (option.dataset.value === 'normal') {
-                option.classList.add('active');
-            }
-        });
-        
-        // Acı seviyesi seçeneklerini sıfırla
-        const spicyOptions = document.querySelectorAll('#spicy-options .option-btn');
-        spicyOptions.forEach(option => {
-            option.classList.remove('active');
-            if (option.dataset.value === 'none') {
-                option.classList.add('active');
-            }
-        });
     };
 
     // Modalları kapatma
@@ -332,21 +304,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const itemElement = document.createElement('div');
             itemElement.className = 'cart-item';
             
-            const portionText = item.portion === 'normal' ? 'Normal' : 'Büyük Boy (+15₺)';
-            let spicyText = 'Acısız';
-            
-            switch(item.spicyLevel) {
-                case 'mild':
-                    spicyText = 'Az Acılı';
-                    break;
-                case 'hot':
-                    spicyText = 'Acılı';
-                    break;
-                case 'extra':
-                    spicyText = 'Çok Acılı';
-                    break;
-            }
-            
+            // Seçilen dinamik seçenekler ve notlar
+            const optionsText = (item.options && item.options.length) ? item.options.join(', ') : '';
+            const notesText = item.notes ? `<br>Not: ${item.notes}` : '';
             itemElement.innerHTML = `
                 <div class="cart-item-details">
                     <div class="cart-item-header">
@@ -354,8 +314,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="cart-item-price">${item.totalPrice.toFixed(2)}₺</div>
                     </div>
                     <div class="cart-item-options">
-                        ${portionText}, ${spicyText}
-                        ${item.notes ? `<br>Not: ${item.notes}` : ''}
+                        ${optionsText}${notesText}
                     </div>
                     <div class="cart-item-quantity">
                         <div>
@@ -413,7 +372,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Toplam fiyatı güncelle
         const item = cartItems[itemIndex];
-        item.totalPrice = (item.price + item.portionPrice) * item.quantity;
+        item.totalPrice = (item.price + item.optionsPrice) * item.quantity;
         
         // Sepeti güncelle
         updateCart();
