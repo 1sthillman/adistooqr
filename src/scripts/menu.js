@@ -62,9 +62,12 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const restaurantInfo = await supabaseModule.restaurant.getRestaurantInfo(restaurantId);
             const { name, address, logo_url } = restaurantInfo;
-            document.getElementById('restaurant-name').textContent = name;
-            document.getElementById('restaurant-description').textContent = address || '';
-            document.getElementById('restaurant-logo').src = logo_url || 'https://via.placeholder.com/100';
+            const nameEl = document.getElementById('restaurant-name');
+            if (nameEl) nameEl.textContent = name;
+            const descEl = document.getElementById('restaurant-description');
+            if (descEl) descEl.textContent = address || '';
+            const logoEl = document.getElementById('restaurant-logo');
+            if (logoEl) logoEl.src = logo_url || 'https://via.placeholder.com/100';
         } catch (err) {
             console.error('Restaurant bilgileri yüklenirken hata oluştu:', err);
             showNotification('Restoran bilgileri alınamadı', 'error');
@@ -193,7 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Modal içeriğini güncelle
         modalProductTitle.textContent = product.title;
-        modalProductImage.src = product.image || '../assets/images/menu/placeholder.jpg';
+        if (modalProductImage) modalProductImage.src = product.image || '../assets/images/menu/placeholder.jpg';
         modalProductDescription.textContent = product.description;
         modalProductPrice.textContent = `${product.price.toFixed(2)}₺`;
         productQuantityInput.value = 1;
