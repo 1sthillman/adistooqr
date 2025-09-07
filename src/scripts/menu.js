@@ -52,6 +52,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentProduct = null;
     let selectedPortion = 'normal';
     let selectedSpicyLevel = 'none';
+    // At top of file, declare dynamic options state
+    let selectedDynamicOptions = {};
 
     // Başlangıç değerlerini ayarlama
     tableNumberElement.textContent = tableId;
@@ -186,10 +188,11 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Ürün modalını açma
-    const openProductModal = (product) => {
+    const openProductModal = async (product) => {
         currentProduct = product;
         selectedPortion = 'normal';
         selectedSpicyLevel = 'none';
+        selectedDynamicOptions = {};
         
         // Modal içeriğini güncelle
         modalProductTitle.textContent = product.title;
@@ -201,6 +204,36 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Seçenekleri sıfırla
         resetOptions();
+        // Ürün tablosundaki options alanından seçenekleri oluştur
+        const dynamicOptionsContainer = document.getElementById('dynamic-options');
+        dynamicOptionsContainer.innerHTML = '';
+        if (Array.isArray(product.options) && product.options.length > 0) {
+            const groupDiv = document.createElement('div');
+            groupDiv.className = 'option-group';
+            const title = document.createElement('h3');
+            title.textContent = 'Seçenekler';
+            const buttonsDiv = document.createElement('div');
+            buttonsDiv.className = 'option-buttons';
+            selectedDynamicOptions = {};
+            product.options.forEach(val => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = val;
+                btn.dataset.value = val;
+                btn.addEventListener('click', () => {
+                    buttonsDiv.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    selectedDynamicOptions[val] = val;
+                });
+                buttonsDiv.appendChild(btn);
+            });
+            groupDiv.appendChild(title);
+            groupDiv.appendChild(buttonsDiv);
+            dynamicOptionsContainer.appendChild(groupDiv);
+            // Varsayılan ilk seçeneği seç
+            const firstBtn = buttonsDiv.querySelector('button');
+            if (firstBtn) firstBtn.click();
+        }
         
         // Modalı göster
         productModal.style.display = 'block';
@@ -546,3 +579,5 @@ document.addEventListener('DOMContentLoaded', () => {
     loadMenu();
     loadRestaurantInfo();
 });
+
+// loadProductOptions fonksiyonu kaldırıldı; ürün seçenekleri products.options ile işleniyor
