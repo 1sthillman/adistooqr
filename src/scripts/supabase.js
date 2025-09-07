@@ -495,7 +495,7 @@ const supabaseOrders = {
           .from('order_items')
           .insert([{ 
             order_id: order.id,
-            menu_item_id: item.productId,
+            product_id: item.productId,
             quantity: item.quantity,
             unit_price: item.price,
             total_price: item.totalPrice,
@@ -595,10 +595,10 @@ const supabaseCalls = {
     try {
       const { data, error } = await supabaseClient
         .from('calls')
-        .insert([{
+        .insert([{ 
           restaurant_id: restaurantId,
           table_id: tableId,
-          type: callType,
+          call_type: callType,
           status: 'pending'
         }])
         .select()
