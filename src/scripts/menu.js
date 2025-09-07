@@ -504,17 +504,29 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('menu-search').addEventListener('input', (e) => searchMenu(e.target.value));
     document.getElementById('call-waiter').addEventListener('click', async () => {
         try {
+            // Önce bildirim göster
+            showNotification('Garson çağrılıyor...', 'info');
+            // Çağrıyı oluştur
             await supabaseModule.calls.createCall(restaurantId, tableId, 'waiter');
-            showNotification('Garson çağrıldı!', 'success');
+            // Başarılı bildirim göster
+            setTimeout(() => {
+                showNotification('Garson çağrınız başarıyla iletildi!', 'success');
+            }, 1000);
         } catch (err) {
             console.error('Garson çağrı hatası:', err);
-            showNotification('Garson çağrı gönderilemedi', 'error');
+            showNotification('Garson çağrılamadı', 'error');
         }
     });
     document.getElementById('request-coal').addEventListener('click', async () => {
         try {
+            // Önce bildirim göster
+            showNotification('Köz talebi gönderiliyor...', 'info');
+            // Çağrıyı oluştur
             await supabaseModule.calls.createCall(restaurantId, tableId, 'coal');
-            showNotification('Köz talebi gönderildi!', 'success');
+            // Başarılı bildirim göster
+            setTimeout(() => {
+                showNotification('Köz talebiniz başarıyla iletildi!', 'success');
+            }, 1000);
         } catch (err) {
             console.error('Köz talebi hatası:', err);
             showNotification('Köz talebi gönderilemedi', 'error');
