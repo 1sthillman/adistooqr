@@ -506,8 +506,10 @@ const supabaseOrders = {
         if (itemError) throw itemError;
         
         // Sipariş öğesi seçeneklerini ekle
+        // Dinamik ürün seçeneklerini de ekle
+        const options = [];
+        // Porsiyon ve acı seviyesi seçenekleri zaten işleniyor, ancak products.options içindeki seçenekleri ekleyelim
         if (item.portion || item.spicyLevel) {
-          const options = [];
           
           if (item.portion) {
             options.push({
@@ -540,14 +542,23 @@ const supabaseOrders = {
               price_addition: 0
             });
           }
-          
-          if (options.length > 0) {
-            const { error: optionsError } = await supabaseClient
-              .from('order_item_options')
-              .insert(options);
-            
-            if (optionsError) throw optionsError;
-          }
+        }
+        // products.options dizisindeki diğer seçenekleri ekle
+        if (item.options && Array.isArray(item.options)) {
+          item.options.forEach(opt => {
+            options.push({
+              order_item_id: orderItemData.id,
+              option_name: 'Seçenek',
+              option_value: opt,
+              price_addition: 0
+            });
+          });
+        }
+        if (options.length > 0) {
+          const { error: optionsError } = await supabaseClient
+            .from('order_item_options')
+            .insert(options);
+          if (optionsError) throw optionsError;
         }
       }
       

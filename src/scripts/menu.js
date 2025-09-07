@@ -475,7 +475,21 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const totalPrice = parseFloat(cartTotalPrice.textContent.replace('₺',''));
             // Supabase ile sipariş oluşturma
-            const order = await supabaseModule.orders.createOrder(restaurantId, tableId, cartItems, totalPrice, orderNoteText.value.trim());
+            const order = await supabaseModule.orders.createOrder(
+                restaurantId,
+                tableId,
+                cartItems.map(ci => ({
+                    productId: ci.productId,
+                    quantity: ci.quantity,
+                    price: ci.price,
+                    totalPrice: ci.totalPrice,
+                    notes: ci.notes,
+                    options: ci.options || [],
+                    optionsPrice: ci.optionsPrice || 0
+                })),
+                totalPrice,
+                orderNoteText.value.trim()
+            );
             document.getElementById('order-id').textContent = order.id;
             
             // Sepeti temizle
