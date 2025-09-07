@@ -1,8 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     // URL'den parametreleri alma
     const urlParams = new URLSearchParams(window.location.search);
-    const restaurantId = urlParams.get('restaurant_id');
-    const tableId = urlParams.get('table_id');
+    // URL parametrelerini okuma (hem 'restaurant' hem 'restaurant_id' parametreleri destekleniyor)
+    const restaurantId = urlParams.get('restaurant') || urlParams.get('restaurant_id');
+    const tableId = urlParams.get('table') || urlParams.get('table_id');
     if (!restaurantId || !tableId) {
         showNotification('Restaurant veya masa ID bulunamadı', 'error');
         return;
