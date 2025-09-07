@@ -52,8 +52,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentProduct = null;
     let selectedDynamicOptions = {}; // dynamic options only
 
-    // Başlangıç değerlerini ayarlama
-    tableNumberElement.textContent = tableId;
+    // Başlangıç değerlerini ayarlama (element mevcutsa)
+    if (tableNumberElement) {
+        tableNumberElement.textContent = tableId;
+    }
 
     // Restaurant bilgilerini yükleme (Supabase’den çekilecek)
     const loadRestaurantInfo = async () => {
