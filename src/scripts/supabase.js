@@ -491,6 +491,27 @@ const supabaseOrders = {
       
       // Sipariş öğelerini ekle
       for (const item of items) {
+        // Sipariş öğesi seçeneklerini JSON alanına eklemek için hazırlanıyor
+        const options = [];
+        // Porsiyon seçeneği
+        if (item.portion) {
+          options.push({ option_name: 'Porsiyon', option_value: item.portion, price_addition: item.portionPrice || 0 });
+        }
+        // Acı seviyesi seçeneği
+        if (item.spicyLevel) {
+          let spicyText = 'Acısız';
+          switch(item.spicyLevel) {
+            case 'mild': spicyText = 'Az Acılı'; break;
+            case 'hot': spicyText = 'Acılı'; break;
+            case 'extra': spicyText = 'Çok Acılı'; break;
+          }
+          options.push({ option_name: 'Acı Seviyesi', option_value: spicyText, price_addition: 0 });
+        }
+        // Diğer dinamik seçenekler
+        if (item.options && Array.isArray(item.options)) {
+          item.options.forEach(opt => options.push({ option_name: 'Seçenek', option_value: opt, price_addition: 0 }));
+        }
+        // Sipariş öğesini options JSON alanıyla birlikte ekle
         const { data: orderItemData, error: itemError } = await supabaseClient
           .from('order_items')
           .insert([{ 
@@ -499,67 +520,12 @@ const supabaseOrders = {
             quantity: item.quantity,
             price: item.price,
             total_price: item.totalPrice,
-            notes: item.notes
+            notes: item.notes,
+            options
           }])
           .select()
           .single();
         if (itemError) throw itemError;
-        
-        // Sipariş öğesi seçeneklerini ekle
-        // Dinamik ürün seçeneklerini de ekle
-        const options = [];
-        // Porsiyon ve acı seviyesi seçenekleri zaten işleniyor, ancak products.options içindeki seçenekleri ekleyelim
-        if (item.portion || item.spicyLevel) {
-          
-          if (item.portion) {
-            options.push({
-              order_item_id: orderItemData.id,
-              option_name: 'Porsiyon',
-              option_value: item.portion === 'normal' ? 'Normal' : 'Büyük Boy',
-              price_addition: item.portionPrice || 0
-            });
-          }
-          
-          if (item.spicyLevel) {
-            let spicyText = 'Acısız';
-            
-            switch(item.spicyLevel) {
-              case 'mild':
-                spicyText = 'Az Acılı';
-                break;
-              case 'hot':
-                spicyText = 'Acılı';
-                break;
-              case 'extra':
-                spicyText = 'Çok Acılı';
-                break;
-            }
-            
-            options.push({
-              order_item_id: orderItemData.id,
-              option_name: 'Acı Seviyesi',
-              option_value: spicyText,
-              price_addition: 0
-            });
-          }
-        }
-        // products.options dizisindeki diğer seçenekleri ekle
-        if (item.options && Array.isArray(item.options)) {
-          item.options.forEach(opt => {
-            options.push({
-              order_item_id: orderItemData.id,
-              option_name: 'Seçenek',
-              option_value: opt,
-              price_addition: 0
-            });
-          });
-        }
-        if (options.length > 0) {
-          const { error: optionsError } = await supabaseClient
-            .from('order_item_options')
-            .insert(options);
-          if (optionsError) throw optionsError;
-        }
       }
       
       return order;
