@@ -497,7 +497,7 @@ const supabaseOrders = {
             order_id: order.id,
             product_id: item.productId,
             quantity: item.quantity,
-            unit_price: item.price,
+            price: item.price,
             total_price: item.totalPrice,
             notes: item.notes
           }])
