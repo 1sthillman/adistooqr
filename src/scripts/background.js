@@ -1,7 +1,7 @@
-// Hareketli Arkaplan Animasyonu
+// Hareketli Arkaplan Animasyonu - Sadece ürün kartları için
 let particles = [];
 let opt = {
-  particles: window.innerWidth / 500 ? 1000 : 500,
+  particles: 100, // Performans için azaltıldı
   noiseScale: 0.009,
   angle: Math.PI / 180 * -90,
   h1: Math.floor(Math.random() * 360),
@@ -15,6 +15,8 @@ let opt = {
 };
 
 let time = 0;
+let canvases = [];
+let menuItems = [];
 
 // Yardımcı fonksiyonlar
 const deg = (a) => Math.PI / 180 * a;
@@ -22,7 +24,7 @@ const rand = (v1, v2) => Math.floor(v1 + Math.random() * (v2 - v1));
 
 // Particle sınıfı
 class Particle {
-  constructor(x, y) {
+  constructor(x, y, width, height) {
     this.x = x;
     this.y = y;
     this.lx = x;
@@ -31,11 +33,13 @@ class Particle {
     this.vy = 0;
     this.ax = 0;
     this.ay = 0;
+    this.width = width;
+    this.height = height;
     this.hueSemen = Math.random();
     this.hue = this.hueSemen > .5 ? 20 + opt.h1 : 20 + opt.h2;
     this.sat = this.hueSemen > .5 ? opt.s1 : opt.s2;
     this.light = this.hueSemen > .5 ? opt.l1 : opt.l2;
-    this.maxSpeed = this.hueSemen > .5 ? 3 : 2;
+    this.maxSpeed = this.hueSemen > .5 ? 2 : 1; // Performans için azaltıldı
   }
   
   randomize() {
@@ -43,10 +47,10 @@ class Particle {
     this.hue = this.hueSemen > .5 ? 20 + opt.h1 : 20 + opt.h2;
     this.sat = this.hueSemen > .5 ? opt.s1 : opt.s2;
     this.light = this.hueSemen > .5 ? opt.l1 : opt.l2;
-    this.maxSpeed = this.hueSemen > .5 ? 3 : 2;
+    this.maxSpeed = this.hueSemen > .5 ? 2 : 1;
   }
   
-  update() {
+  update(width, height) {
     this.follow();
     
     this.vx += this.ax;
@@ -63,7 +67,7 @@ class Particle {
     this.ax = 0;
     this.ay = 0;
     
-    this.edges();
+    this.edges(width, height);
   }
   
   follow() {
@@ -78,7 +82,7 @@ class Particle {
     this.ly = this.y;
   }
   
-  edges() {
+  edges(width, height) {
     if (this.x < 0) {
       this.x = width;
       this.updatePrev();
@@ -97,39 +101,105 @@ class Particle {
     }
   }
   
-  render() {
-    stroke(`hsla(${this.hue}, ${this.sat}%, ${this.light}%, .5)`);
-    line(this.x, this.y, this.lx, this.ly);
+  render(ctx) {
+    ctx.strokeStyle = `hsla(${this.hue}, ${this.sat}%, ${this.light}%, .5)`;
+    ctx.beginPath();
+    ctx.moveTo(this.x, this.y);
+    ctx.lineTo(this.lx, this.ly);
+    ctx.stroke();
     this.updatePrev();
   }
 }
 
-// P5.js fonksiyonları
-function setup() {
-  let canvas = createCanvas(windowWidth, windowHeight);
-  canvas.parent('background-canvas');
-  canvas.style('display', 'block');
-  canvas.style('position', 'absolute');
-  canvas.style('z-index', '0');
-  for (let i = 0; i < opt.particles; i++) {
-    particles.push(new Particle(Math.random() * width, Math.random() * height));
-  }
-  strokeWeight(opt.strokeWeight);
-}
-
-function draw() {
-  time++;
-  background(0, 100 - opt.tail);
+// Ürün kartlarını bulma ve canvas ekleme
+function setupMenuItemCanvases() {
+  // Mevcut canvas'ları temizle
+  canvases.forEach(canvas => {
+    if (canvas && canvas.parentNode) {
+      canvas.parentNode.removeChild(canvas);
+    }
+  });
+  canvases = [];
+  particles = [];
   
-  for (let p of particles) {
-    p.update();
-    p.render();
-  }
+  // Ürün kartlarını bul
+  menuItems = document.querySelectorAll('.menu-item');
+  
+  // Her ürün kartı için canvas oluştur
+  menuItems.forEach((item, index) => {
+    // Canvas oluştur
+    const canvas = document.createElement('canvas');
+    canvas.className = 'item-background-canvas';
+    canvas.width = item.offsetWidth;
+    canvas.height = item.offsetHeight;
+    canvas.style.position = 'absolute';
+    canvas.style.top = '0';
+    canvas.style.left = '0';
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    canvas.style.zIndex = '-1';
+    canvas.style.borderRadius = 'inherit';
+    
+    // Canvas'ı ürün kartının başına ekle
+    item.style.position = 'relative';
+    item.insertBefore(canvas, item.firstChild);
+    
+    // Canvas'ı kaydet
+    canvases.push(canvas);
+    
+    // Her canvas için parçacıklar oluştur
+    const particleCount = Math.max(10, Math.floor(opt.particles / menuItems.length));
+    for (let i = 0; i < particleCount; i++) {
+      particles.push({
+        particle: new Particle(
+          Math.random() * canvas.width,
+          Math.random() * canvas.height,
+          canvas.width,
+          canvas.height
+        ),
+        canvasIndex: index
+      });
+    }
+  });
 }
 
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
+// Animasyonu güncelleme
+function updateAnimation() {
+  time++;
+  
+  // Her canvas için çizim yap
+  canvases.forEach((canvas, index) => {
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = `rgba(0, 0, 0, ${1 - opt.tail/100})`;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // Bu canvas'a ait parçacıkları güncelle ve çiz
+    particles.filter(p => p.canvasIndex === index).forEach(p => {
+      p.particle.update(canvas.width, canvas.height);
+      p.particle.render(ctx);
+    });
+  });
+  
+  // Animasyonu devam ettir
+  requestAnimationFrame(updateAnimation);
 }
+
+// Sayfa yüklendiğinde ve boyut değiştiğinde
+document.addEventListener('DOMContentLoaded', () => {
+  // Menü öğeleri yüklendiğinde canvas'ları oluştur
+  setTimeout(() => {
+    setupMenuItemCanvases();
+    updateAnimation();
+  }, 500); // Menü öğelerinin yüklenmesi için biraz bekle
+});
+
+// Pencere boyutu değiştiğinde
+window.addEventListener('resize', () => {
+  // Boyut değiştiğinde canvas'ları yeniden oluştur
+  setTimeout(setupMenuItemCanvases, 300);
+});
 
 // Renkleri değiştirmek için tıklama olayı
 document.addEventListener('click', () => {
@@ -139,9 +209,9 @@ document.addEventListener('click', () => {
   opt.s2 = rand(20, 90);
   opt.l1 = rand(30, 80);
   opt.l2 = rand(30, 80);
-  opt.angle += deg(random(60, 60)) * (Math.random() > .5 ? 1 : -1);
+  opt.angle += deg(rand(30, 60)) * (Math.random() > .5 ? 1 : -1);
   
-  for (let p of particles) {
-    p.randomize();
-  }
+  particles.forEach(p => {
+    p.particle.randomize();
+  });
 });

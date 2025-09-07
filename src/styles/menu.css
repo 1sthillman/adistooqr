@@ -73,14 +73,6 @@ body {
     overflow-x: hidden;
 }
 
-#background-canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-}
 
 /* Temel Tipografi */
 h1, h2, h3, h4, h5, h6 {
@@ -222,7 +214,7 @@ a:hover {
 
 /* Header */
 .menu-header {
-    background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
     color: var(--white);
     padding: 0.15rem 0.4rem;
     position: sticky;
@@ -380,7 +372,8 @@ a:hover {
 }
 
 .menu-item {
-    background-color: rgba(15, 23, 42, 0.7);
+    position: relative;
+    background-color: rgba(15, 23, 42, 0.8);
     border-radius: var(--border-radius-lg);
     overflow: hidden;
     box-shadow: 0 2px 6px rgba(0,0,0,.4);
@@ -391,6 +384,18 @@ a:hover {
     max-width: 100%;
     min-height: 180px;
     backdrop-filter: blur(5px);
+}
+
+.menu-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-color: black;
+    overflow: hidden;
 }
 
 .menu-item:hover {
@@ -470,7 +475,7 @@ a:hover {
 
 /* Cart */
 .cart-container {
-    background-color: rgba(15, 23, 42, 0.8);
+    background-color: var(--gray-900);
     border-radius: var(--border-radius-lg);
     box-shadow: var(--shadow-md);
     display: flex;
@@ -478,7 +483,6 @@ a:hover {
     height: 100%;
     border: 1px solid var(--border-color);
     overflow: hidden;
-    backdrop-filter: blur(5px);
 }
 
 .cart-header {
