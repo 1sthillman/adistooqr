@@ -584,13 +584,25 @@ document.addEventListener('DOMContentLoaded', () => {
     // Sepeti açma/kapama fonksiyonu
     const toggleCart = (show) => {
         if (show) {
+            // Sepeti aç
             cartContainer.classList.add('open');
             cartOverlay.classList.add('open');
             document.body.style.overflow = 'hidden'; // Sayfanın scroll'unu engelleme
+            
+            // Sepeti en üste getir
+            cartContainer.style.zIndex = '3000';
+            cartOverlay.style.zIndex = '2900';
         } else {
+            // Sepeti kapat
             cartContainer.classList.remove('open');
             cartOverlay.classList.remove('open');
             document.body.style.overflow = ''; // Scroll'u tekrar etkinleştir
+            
+            // Sepet z-index'ini normal değerine döndür
+            setTimeout(() => {
+                cartContainer.style.zIndex = '';
+                cartOverlay.style.zIndex = '';
+            }, 300); // Geçiş animasyonu tamamlandıktan sonra
         }
     };
 
