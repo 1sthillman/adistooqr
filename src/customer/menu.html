@@ -6,6 +6,9 @@
     <title>Menü | ADİSTOW QR</title>
     <link rel="stylesheet" href="../styles/menu.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- P5.js kütüphanesi -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
 </head>
@@ -14,34 +17,37 @@
         <!-- Header -->
         <header class="menu-header">
             <div class="restaurant-info">
-                <div class="restaurant-logo">
-                    <!-- Bu kısım dinamik olarak restaurant ID'ye göre güncellenecek -->
-                    <img id="restaurant-logo" src="" alt="Restaurant Logo">
-                </div>
-                <div class="restaurant-details">
-                    <h1 id="restaurant-name">Restaurant Adı</h1>
-                    <p id="restaurant-description">Restaurant Açıklaması</p>
-                </div>
+                <h1 id="restaurant-name" class="modern-title">1st</h1>
             </div>
             <div class="menu-actions">
                 <div class="table-actions">
                     <span id="table-number" class="table-number">--</span>
                     <button class="btn btn-primary" id="call-waiter">
-                        <i class="fas fa-bell"></i> Garson Çağır
+                        <i class="fas fa-bell"></i>
                     </button>
                     <button class="btn btn-secondary" id="request-coal">
-                        <i class="fas fa-fire"></i> Köz İste
+                        <i class="fas fa-fire"></i>
                     </button>
                 </div>
+                <button class="search-toggle" id="search-toggle">
+                    <i class="fas fa-search"></i>
+                </button>
             </div>
         </header>
 
         <!-- Menu Navigation -->
-        <nav class="menu-nav">
+        <!-- Arama paneli -->
+        <div class="search-panel" id="search-panel">
             <div class="search-bar">
-                <input type="text" id="menu-search" placeholder="Menüde ara...">
                 <i class="fas fa-search"></i>
+                <input type="text" id="menu-search" placeholder="Menüde ara...">
+                <button id="close-search">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
+        </div>
+        
+        <nav class="menu-nav">
             <div class="categories-container">
                 <div class="categories-scroll">
                     <button class="category-btn active" data-category="all">Tümü</button>
