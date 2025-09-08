@@ -116,7 +116,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Kategorileri render etme
     const renderCategories = () => {
-        // "Tümü" kategorisi zaten HTML'de mevcut
+        // Önce mevcut butonları temizle
+        categoriesContainer.innerHTML = '';
+        
+        // "Tümü" kategorisini ekle
+        const allBtn = document.createElement('button');
+        allBtn.className = 'category-btn active';
+        allBtn.textContent = 'Tümü';
+        allBtn.dataset.category = 'all';
+        allBtn.addEventListener('click', () => filterByCategory('all'));
+        categoriesContainer.appendChild(allBtn);
+        
+        // Diğer kategorileri ekle
         categories.forEach(category => {
             const categoryBtn = document.createElement('button');
             categoryBtn.className = 'category-btn';

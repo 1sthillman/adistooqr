@@ -217,24 +217,25 @@ a:hover {
 .menu-header {
     background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
     color: var(--white);
-    padding: 0.15rem 0.4rem;
+    padding: 0.1rem 0.3rem;
     position: sticky;
     top: 0;
     z-index: 100;
+    max-height: 80px;
 }
 
 .restaurant-info {
     display: flex;
     align-items: center;
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.3rem;
 }
 
 .restaurant-logo {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     overflow: hidden;
-    margin-right: 1rem;
+    margin-right: 0.5rem;
     background-color: var(--white);
     display: flex;
     justify-content: center;
@@ -248,8 +249,8 @@ a:hover {
 }
 
 .restaurant-details h1 {
-    font-size: 1.4rem;
-    margin-bottom: 0.25rem;
+    font-size: 1.1rem;
+    margin-bottom: 0.15rem;
 }
 
 .restaurant-details p {
@@ -265,11 +266,13 @@ a:hover {
 }
 
 .table-info {
-    background-color: rgba(255, 255, 255, 0.15);
-    padding: 0.25rem 0.6rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 0.15rem 0.4rem;
     border-radius: var(--border-radius-full);
-    font-weight: 600;
+    font-weight: 500;
     margin-right: auto;
+    font-size: 0.75rem;
+    opacity: 0.8;
 }
 
 /* Menu Navigation */
@@ -549,12 +552,14 @@ a:hover {
 .cart-container {
     background-color: var(--gray-900);
     border-radius: var(--border-radius-lg);
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
     display: flex;
     flex-direction: column;
     height: 100%;
     border: 1px solid var(--border-color);
     overflow: hidden;
+    z-index: 10;
+    position: relative;
 }
 
 .cart-header {
