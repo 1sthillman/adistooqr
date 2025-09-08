@@ -147,6 +147,8 @@ a:hover {
     justify-content: center;
     gap: 8px;
     transition: all 0.3s ease;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
 }
 
 .btn-primary:hover {
@@ -165,6 +167,8 @@ a:hover {
     justify-content: center;
     gap: 8px;
     transition: all 0.3s ease;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
 }
 
 .btn-secondary:hover {
@@ -265,14 +269,20 @@ a:hover {
     gap: 0.35rem;
 }
 
-.table-info {
+.table-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-right: auto;
+}
+
+.table-number {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--gray-300);
     background-color: rgba(255, 255, 255, 0.1);
     padding: 0.15rem 0.4rem;
     border-radius: var(--border-radius-full);
-    font-weight: 500;
-    margin-right: auto;
-    font-size: 0.75rem;
-    opacity: 0.8;
 }
 
 /* Menu Navigation */
@@ -552,13 +562,13 @@ a:hover {
 .cart-container {
     background-color: var(--gray-900);
     border-radius: var(--border-radius-lg);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.7);
     display: flex;
     flex-direction: column;
     height: 100%;
     border: 1px solid var(--border-color);
     overflow: hidden;
-    z-index: 10;
+    z-index: 1000;
     position: relative;
 }
 
@@ -1169,13 +1179,14 @@ a:hover {
         bottom: 0;
         width: 85%;
         max-width: 350px;
-        z-index: 200;
+        z-index: 2000;
         background-color: var(--gray-900);
-        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+        box-shadow: -5px 0 25px rgba(0, 0, 0, 0.7);
         overflow-y: auto;
         transition: right 0.3s ease-in-out;
         padding: 1rem;
         margin-top: 0;
+        border: none;
     }
     
     .cart-container.open {
@@ -1190,8 +1201,9 @@ a:hover {
         left: 0;
         right: 0;
         bottom: 0;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 190;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 1900;
+        backdrop-filter: blur(3px);
     }
     
     .cart-overlay.open {
