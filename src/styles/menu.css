@@ -257,7 +257,21 @@ a:hover {
 .table-actions {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.7rem;
+}
+
+.action-button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.button-label {
+    font-size: 0.65rem;
+    color: var(--gray-400);
+    margin-top: 2px;
+    font-weight: 500;
 }
 
 .table-number {
@@ -272,11 +286,12 @@ a:hover {
 /* Menu Navigation */
 .menu-nav {
     background-color: var(--gray-900);
-    padding: 0.6rem 1rem;
+    padding: 0.4rem 0.8rem;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     position: sticky;
-    top: 60px; /* matches reduced header */
+    top: 50px; /* matches reduced header */
     z-index: 10;
+    margin-top: 0;
 }
 
 .search-toggle {
@@ -363,7 +378,8 @@ a:hover {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     background-color: transparent;
-    border-bottom: 1px solid var(--gray-700);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.2rem 0;
 }
 
 .categories-scroll {
@@ -371,11 +387,12 @@ a:hover {
     padding: 0.5rem 0;
     gap: 0.5rem;
     background-color: transparent;
+    justify-content: center;
 }
 
 .category-btn {
-    padding: 0.75rem 1.5rem;
-    background-color: var(--gray-800);
+    padding: 0.6rem 1.2rem;
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));
     border: none;
     border-radius: var(--border-radius-full);
     font-weight: 600;
@@ -385,8 +402,11 @@ a:hover {
     transition: all 0.2s ease;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    margin: 0 3px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+    margin: 0 4px;
+    font-size: 0.9rem;
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 0.5px;
 }
 
 .category-btn:before {
@@ -413,10 +433,24 @@ a:hover {
 }
 
 .category-btn.active {
-    background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
     color: var(--white);
-    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.5);
     transform: translateY(-2px);
+    position: relative;
+}
+
+.category-btn.active:after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30%;
+    height: 3px;
+    background: var(--white);
+    border-radius: 3px;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
 }
 
 /* Menu Content */
