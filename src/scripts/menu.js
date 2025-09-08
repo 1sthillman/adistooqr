@@ -163,19 +163,46 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Kategori ile filtreleme
     const filterByCategory = (category) => {
-        const categoryBtns = document.querySelectorAll('.category-btn');
-        categoryBtns.forEach(btn => {
-            btn.classList.remove('active');
-            if (btn.dataset.category === category || (category === 'all' && btn.dataset.category === 'all')) {
-                btn.classList.add('active');
-            }
-        });
+        try {
+            // Yükleme göstergesi
+            showNotification('Kategori yükleniyor...', 'info');
+            
+            // Kategori butonlarını güncelle
+            const categoryBtns = document.querySelectorAll('.category-btn');
+            categoryBtns.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.category === category) {
+                    btn.classList.add('active');
+                }
+            });
 
-        const filteredItems = category === 'all' 
-            ? menuData 
-            : menuData.filter(item => item.category === category);
-        
-        renderMenuItems(filteredItems);
+            // Performans için setTimeout kullan
+            setTimeout(() => {
+                // Filtreleme işlemi
+                let filteredItems = [];
+                
+                if (category === 'all') {
+                    filteredItems = [...menuData];
+                } else {
+                    filteredItems = menuData.filter(item => {
+                        return item.category === category;
+                    });
+                }
+                
+                // Sonuçları göster
+                renderMenuItems(filteredItems);
+                
+                // Başarılı bildirim
+                if (filteredItems.length > 0) {
+                    showNotification(`${filteredItems.length} ürün bulundu`, 'success');
+                } else {
+                    showNotification('Bu kategoride ürün bulunamadı', 'warning');
+                }
+            }, 10); // Minimum gecikme
+        } catch (error) {
+            console.error('Kategori filtreleme hatası:', error);
+            showNotification('Kategori filtreleme hatası', 'error');
+        }
     };
 
     // Arama fonksiyonu

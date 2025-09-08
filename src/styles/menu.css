@@ -1,8 +1,9 @@
 :root {
     /* Ana Renkler */
-    --primary-color: #0d9488; /* modern teal */
-    --primary-dark: #0f766e;
-    --primary-light: #5eead4;
+    --primary-color: #0ea5e9; /* modern blue */
+    --primary-color-rgb: 14, 165, 233;
+    --primary-dark: #0284c7;
+    --primary-light: #7dd3fc;
     --secondary-color: #22c55e;
     --secondary-dark: #15803d;
     --secondary-light: #86efac;
@@ -335,16 +336,41 @@ a:hover {
     color: var(--gray-300);
     cursor: pointer;
     white-space: nowrap;
-    transition: all var(--transition-speed) var(--transition-function);
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    margin: 0 3px;
+}
+
+.category-btn:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.1);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
 }
 
 .category-btn:hover {
-    background-color: var(--gray-300);
+    background-color: var(--gray-700);
+    color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.category-btn:hover:before {
+    transform: translateX(0);
 }
 
 .category-btn.active {
-    background: linear-gradient(135deg,var(--primary-dark),var(--primary-light));
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
     color: var(--white);
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
+    transform: translateY(-2px);
 }
 
 /* Menu Content */
@@ -376,11 +402,10 @@ a:hover {
     background-color: rgba(15, 23, 42, 0.8);
     border-radius: var(--border-radius-lg);
     overflow: hidden;
-    box-shadow: 0 2px 6px rgba(0,0,0,.4);
+    box-shadow: 0 4px 12px rgba(0,0,0,.5);
     cursor: pointer;
-    transition: transform var(--transition-speed) var(--transition-function),
-                box-shadow var(--transition-speed) var(--transition-function);
-    border: 1px solid var(--gray-700);
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     max-width: 100%;
     min-height: 180px;
     backdrop-filter: blur(5px);
@@ -399,8 +424,26 @@ a:hover {
 }
 
 .menu-item:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-md);
+    transform: translateY(-8px);
+    box-shadow: 0 10px 20px rgba(0,0,0,.6);
+    border-color: rgba(var(--primary-color-rgb), 0.3);
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(var(--primary-color-rgb), 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(var(--primary-color-rgb), 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(var(--primary-color-rgb), 0);
+    }
+}
+
+.menu-item:active {
+    transform: translateY(-2px);
+    animation: pulse 0.8s;
 }
 
 .menu-item-image {
@@ -459,18 +502,47 @@ a:hover {
 
 .add-item-btn {
     width: 100%;
-    padding: 0.5rem;
-    background-color: var(--primary-color);
+    padding: 0.75rem;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
     color: var(--white);
     border: none;
     border-radius: var(--border-radius-md);
     font-weight: 600;
     cursor: pointer;
-    transition: background-color var(--transition-speed) var(--transition-function);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(var(--primary-color-rgb), 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.9rem;
+}
+
+.add-item-btn:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
 }
 
 .add-item-btn:hover {
-    background-color: var(--primary-dark);
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(var(--primary-color-rgb), 0.4);
+}
+
+.add-item-btn:hover:before {
+    transform: translateX(100%);
+}
+
+.add-item-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(var(--primary-color-rgb), 0.4);
 }
 
 /* Cart */
