@@ -606,25 +606,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Arama panelini açma/kapama
-    const toggleSearchPanel = (show) => {
-        const searchPanel = document.getElementById('search-panel');
-        if (show) {
-            searchPanel.classList.add('open');
-            document.body.style.overflow = 'hidden';
-        } else {
-            searchPanel.classList.remove('open');
-            document.body.style.overflow = '';
-        }
-    };
-
     // Event listeners
     document.getElementById('add-to-cart').addEventListener('click', addToCart);
     document.getElementById('decrease-quantity').addEventListener('click', () => updateCartItemQuantity(currentProduct.id, -1));
     document.getElementById('increase-quantity').addEventListener('click', () => updateCartItemQuantity(currentProduct.id, 1));
-    document.getElementById('menu-search').addEventListener('input', (e) => searchMenu(e.target.value));
-    document.getElementById('search-toggle').addEventListener('click', () => toggleSearchPanel(true));
-    document.getElementById('close-search').addEventListener('click', () => toggleSearchPanel(false));
     
     // Mobil sepet butonları
     if (openCartButton) {

@@ -225,7 +225,7 @@ a:hover {
     position: sticky;
     top: 0;
     z-index: 20;
-    max-height: 50px;
+    max-height: 40px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -238,7 +238,7 @@ a:hover {
 
 .modern-title {
     font-family: 'Poppins', sans-serif;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 600;
     margin: 0;
     background: linear-gradient(135deg, #3a7bd5, #00d2ff);
@@ -268,9 +268,9 @@ a:hover {
 }
 
 .button-label {
-    font-size: 0.65rem;
+    font-size: 0.6rem;
     color: var(--gray-400);
-    margin-top: 2px;
+    margin-top: 1px;
     font-weight: 500;
 }
 
@@ -286,93 +286,14 @@ a:hover {
 /* Menu Navigation */
 .menu-nav {
     background-color: var(--gray-900);
-    padding: 0.4rem 0.8rem;
+    padding: 0.3rem 0.6rem;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     position: sticky;
-    top: 50px; /* matches reduced header */
+    top: 40px; /* matches reduced header */
     z-index: 10;
     margin-top: 0;
 }
 
-.search-toggle {
-    background: none;
-    border: none;
-    color: var(--white);
-    font-size: 1.2rem;
-    cursor: pointer;
-    padding: 0.5rem;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-}
-
-.search-toggle:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-.search-panel {
-    position: fixed;
-    top: 0;
-    left: -100%;
-    height: 100%;
-    width: 80%;
-    max-width: 320px;
-    background-color: var(--gray-900);
-    z-index: 2500;
-    transition: left 0.3s ease;
-    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3);
-    padding: 1rem;
-}
-
-.search-panel.open {
-    left: 0;
-}
-
-.search-bar {
-    position: relative;
-    margin-bottom: 1rem;
-    margin-top: 1rem;
-}
-
-.search-bar input {
-    width: 100%;
-    padding: 0.8rem 2.5rem;
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-full);
-    font-size: 0.9rem;
-    background-color: var(--gray-800);
-    color: var(--white);
-}
-
-.search-bar input::placeholder { color: var(--gray-500); }
-
-.search-bar input:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.1);
-}
-
-.search-bar i {
-    position: absolute;
-    left: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--gray-600);
-}
-
-.search-bar button {
-    position: absolute;
-    right: 0.5rem;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    color: var(--gray-400);
-    cursor: pointer;
-    padding: 0.5rem;
-}
 
 .categories-container {
     overflow-x: auto;
