@@ -221,19 +221,34 @@ a:hover {
 .menu-header {
     background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
     color: var(--white);
-    padding: 0.1rem 0.3rem;
+    padding: 0.3rem 0.5rem;
     position: sticky;
     top: 0;
     z-index: 20;
-    max-height: 40px;
+    max-height: 50px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
 }
 
 .restaurant-info {
     display: flex;
+    flex-direction: column;
     align-items: center;
+}
+
+.hidden-id {
+    display: none;
+}
+
+.action-buttons-container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    padding: 0.5rem;
+    background: linear-gradient(180deg, #0f172a 0%, rgba(15, 23, 42, 0.8) 100%);
+    position: relative;
+    z-index: 15;
 }
 
 .modern-title {
@@ -285,13 +300,15 @@ a:hover {
 
 /* Menu Navigation */
 .menu-nav {
-    background-color: var(--gray-900);
+    background: linear-gradient(180deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%);
     padding: 0.3rem 0.6rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
     position: sticky;
-    top: 40px; /* matches reduced header */
+    top: 90px; /* header + action buttons */
     z-index: 10;
     margin-top: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 
@@ -319,7 +336,9 @@ a:hover {
     font-weight: 600;
     color: var(--gray-300);
     cursor: pointer;
-    white-space: nowrap;
+    white-space: normal;
+    text-align: center;
+    min-width: 90px;
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
@@ -327,8 +346,13 @@ a:hover {
     margin: 0 5px;
     font-size: 0.9rem;
     font-family: 'Poppins', sans-serif;
-    letter-spacing: 0.7px;
+    letter-spacing: 0.5px;
     backdrop-filter: blur(8px);
+    line-height: 1.2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
 }
 
 .category-btn:before {
@@ -402,7 +426,11 @@ a:hover {
 
 .menu-item {
     position: relative;
-    background: linear-gradient(145deg, rgba(15, 23, 42, 0.85), rgba(30, 41, 59, 0.75));
+    background: linear-gradient(145deg, 
+        rgba(15, 23, 42, 0.85), 
+        rgba(30, 41, 59, 0.75),
+        rgba(15, 23, 42, 0.9)
+    );
     border-radius: var(--border-radius-lg);
     overflow: hidden;
     box-shadow: 0 8px 20px rgba(0,0,0,.6);
@@ -410,7 +438,7 @@ a:hover {
     transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
     border: 1px solid rgba(255, 255, 255, 0.1);
     max-width: 100%;
-    min-height: 180px;
+    min-height: 170px;
     backdrop-filter: blur(10px);
 }
 
@@ -609,15 +637,15 @@ a:hover {
 
 /* Cart */
 .cart-container {
-    background-color: var(--gray-900);
+    background: linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.9));
     border-radius: var(--border-radius-lg);
     box-shadow: 0 8px 25px rgba(0,0,0,0.7);
     display: flex;
     flex-direction: column;
     height: 100%;
-    border: 1px solid var(--border-color);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     overflow: hidden;
-    z-index: 1000;
+    z-index: 3000; /* En üst katmanda olması için */
     position: relative;
 }
 
@@ -1228,14 +1256,15 @@ a:hover {
         bottom: 0;
         width: 85%;
         max-width: 350px;
-        z-index: 2000;
-        background-color: var(--gray-900);
+        z-index: 3000;
+        background: linear-gradient(145deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.95));
         box-shadow: -5px 0 25px rgba(0, 0, 0, 0.7);
         overflow-y: auto;
         transition: right 0.3s ease-in-out;
         padding: 1rem;
         margin-top: 0;
         border: none;
+        border-left: 1px solid rgba(255, 255, 255, 0.1);
     }
     
     .cart-container.open {
@@ -1251,7 +1280,7 @@ a:hover {
         right: 0;
         bottom: 0;
         background-color: rgba(0, 0, 0, 0.7);
-        z-index: 1900;
+        z-index: 2900; /* Sepetten hemen altta */
         backdrop-filter: blur(3px);
     }
     
@@ -1272,11 +1301,13 @@ a:hover {
     
     /* Ürün modalı mobil uyumluluğu */
     .modal-content {
-        width: 95%;
-        max-width: 500px;
-        max-height: 80vh;
+        width: 92%;
+        max-width: 450px;
+        max-height: 90vh;
         overflow-y: auto;
-        margin: 10% auto;
+        margin: 5% auto;
+        border-radius: 16px;
+        background: linear-gradient(145deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.95));
     }
     
     .modal-body {
@@ -1286,12 +1317,14 @@ a:hover {
     .modal-product-image {
         width: 100%;
         height: auto;
-        max-height: 200px;
+        max-height: 180px;
+        border-radius: 8px;
+        overflow: hidden;
     }
     
     .modal-product-details {
         width: 100%;
-        padding: 15px;
+        padding: 15px 12px;
     }
     
     /* Butonlar için mobil uyumluluk */
