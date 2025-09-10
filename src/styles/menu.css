@@ -1252,6 +1252,16 @@ a:hover {
         display: block;
     }
     
+    /* Mobilde de menü navigasyonu sabit */
+    .menu-nav {
+        position: fixed;
+        top: 90px;
+        left: 0;
+        right: 0;
+        width: 100%;
+        z-index: 30;
+    }
+    
     .menu-content {
         grid-template-columns: 1fr;
         height: auto;
@@ -1262,11 +1272,13 @@ a:hover {
         grid-template-columns: repeat(2, 1fr); /* mobilde iki sütun */
         gap: 0.7rem;
         padding: 0.5rem;
+        margin-top: 0;
     }
     
     /* Kategorilerin mobilde düzgün görünmesi */
     .categories-container {
         padding: 0;
+        width: 100%;
     }
     
     .categories-scroll {

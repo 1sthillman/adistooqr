@@ -72,7 +72,16 @@ class Particle {
   }
   
   follow() {
-    let angle = (noise(this.x * opt.noiseScale, this.y * opt.noiseScale, time * opt.noiseScale)) * Math.PI * 0.5 + opt.angle;
+    // Perlin noise fonksiyonu yoksa basit bir alternatif kullan
+    let noiseValue;
+    if (typeof p5 !== 'undefined' && p5.prototype.noise) {
+      noiseValue = noise(this.x * opt.noiseScale, this.y * opt.noiseScale, time * opt.noiseScale);
+    } else {
+      // Basit alternatif: sin ve cos ile rastgele görünümlü değer üret
+      noiseValue = Math.sin(this.x * opt.noiseScale + time * 0.1) * Math.cos(this.y * opt.noiseScale) * 0.5 + 0.5;
+    }
+    
+    let angle = noiseValue * Math.PI * 0.5 + opt.angle;
     
     this.ax += Math.cos(angle);
     this.ay += Math.sin(angle);
