@@ -1,17 +1,18 @@
 // Hareketli Arkaplan Animasyonu - Sadece ürün kartları için
 let particles = [];
 let opt = {
-  particles: 100, // Performans için azaltıldı
-  noiseScale: 0.009,
+  particles: 60, // Performans için daha da azaltıldı
+  noiseScale: 0.008,
   angle: Math.PI / 180 * -90,
-  h1: Math.floor(Math.random() * 360),
-  h2: Math.floor(Math.random() * 360),
-  s1: Math.floor(20 + Math.random() * 70),
-  s2: Math.floor(20 + Math.random() * 70),
-  l1: Math.floor(30 + Math.random() * 50),
-  l2: Math.floor(30 + Math.random() * 50),
-  strokeWeight: 1.2,
-  tail: 82,
+  // Mavi tonları için renkler (0ea5e9 - ana tema rengi için)
+  h1: 210, // mavi
+  h2: 200, // açık mavi
+  s1: 80,  // canlı
+  s2: 70,  // biraz daha az canlı
+  l1: 60,  // orta parlaklık
+  l2: 70,  // biraz daha parlak
+  strokeWeight: 1.0, // İnce çizgiler
+  tail: 90, // Daha uzun iz
 };
 
 let time = 0;
@@ -102,10 +103,16 @@ class Particle {
   }
   
   render(ctx) {
-    ctx.strokeStyle = `hsla(${this.hue}, ${this.sat}%, ${this.light}%, .5)`;
+    // Gradyan oluştur
+    const gradient = ctx.createLinearGradient(this.x, this.y, this.lx, this.ly);
+    gradient.addColorStop(0, `hsla(${this.hue}, ${this.sat}%, ${this.light}%, .6)`);
+    gradient.addColorStop(1, `hsla(${this.hue}, ${this.sat}%, ${this.light}%, .3)`);
+    
+    ctx.strokeStyle = gradient;
     ctx.beginPath();
     ctx.moveTo(this.x, this.y);
     ctx.lineTo(this.lx, this.ly);
+    ctx.lineWidth = 1.5; // Biraz daha kalın çizgiler
     ctx.stroke();
     this.updatePrev();
   }
