@@ -304,9 +304,11 @@ a:hover {
     background: linear-gradient(180deg, rgba(30, 41, 59, 0.98) 0%, rgba(15, 23, 42, 0.99) 100%);
     padding: 0.3rem 0;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
-    position: sticky;
+    position: fixed;
     top: 90px; /* header + action buttons */
-    z-index: 15;
+    left: 0;
+    right: 0;
+    z-index: 20;
     margin-top: 0;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -416,10 +418,12 @@ a:hover {
     grid-template-columns: 1fr 350px;
     gap: 1rem;
     padding: 1rem;
+    padding-top: 3.5rem; /* Kategoriler için yer açma */
     overflow: hidden;
     height: calc(100vh - 200px);
     position: relative;
     z-index: 1;
+    margin-top: 0;
 }
 
 .menu-items {
@@ -1251,6 +1255,7 @@ a:hover {
     .menu-content {
         grid-template-columns: 1fr;
         height: auto;
+        padding-top: 3.5rem; /* Mobilde de kategoriler için yer açma */
     }
     
     .menu-items {
