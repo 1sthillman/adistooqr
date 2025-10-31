@@ -223,9 +223,9 @@ a:hover {
     background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
     color: var(--white);
     padding: 0.3rem 0.5rem;
-    position: sticky;
+    position: relative;
     top: 0;
-    z-index: 100;
+    z-index: 1;
     max-height: 50px;
     display: flex;
     align-items: center;
@@ -248,9 +248,8 @@ a:hover {
     gap: 2rem;
     padding: 0.5rem;
     background: linear-gradient(180deg, #0f172a 0%, rgba(15, 23, 42, 0.8) 100%);
-    position: sticky;
-    top: 50px;
-    z-index: 90;
+    position: relative;
+    z-index: 1;
 }
 
 .modern-title {
@@ -305,11 +304,10 @@ a:hover {
     background: linear-gradient(180deg, rgba(30, 41, 59, 0.98) 0%, rgba(15, 23, 42, 0.99) 100%);
     padding: 0.3rem 0;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
-    position: sticky;
-    top: 90px; /* header + action buttons */
+    position: relative;
     left: 0;
     right: 0;
-    z-index: 80;
+    z-index: 1;
     margin-top: 0;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -419,7 +417,6 @@ a:hover {
     grid-template-columns: 1fr 350px;
     gap: 1rem;
     padding: 1rem;
-    padding-top: 3.5rem; /* Kategoriler için yer açma */
     overflow: hidden;
     height: calc(100vh - 200px);
     position: relative;
@@ -803,7 +800,7 @@ a:hover {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
+    z-index: 500;
     overflow-y: auto;
 }
 
@@ -1116,7 +1113,7 @@ a:hover {
     border-radius: var(--border-radius-lg);
     box-shadow: 0 8px 20px rgba(0,0,0,.7);
     opacity: 0;
-    z-index: 1100;
+    z-index: 600;
     transition: transform 0.3s ease-out, opacity 0.3s ease-out;
     color: var(--white);
     min-width: 280px;
@@ -1214,7 +1211,7 @@ a:hover {
     align-items: center;
     justify-content: center;
     font-size: 1.5rem;
-    z-index: 910;
+    z-index: 450;
     cursor: pointer;
 }
 
@@ -1253,20 +1250,20 @@ a:hover {
         display: block;
     }
     
-    /* Mobilde de menü navigasyonu sabit */
+    /* Mobilde de menü navigasyonu normal akışta */
     .menu-nav {
-        position: sticky;
-        top: 90px;
+        position: relative;
+        top: 0;
         left: 0;
         right: 0;
         width: 100%;
-        z-index: 80;
+        z-index: 1;
     }
     
     .menu-content {
         grid-template-columns: 1fr;
         height: auto;
-        padding-top: 3.5rem; /* Mobilde de kategoriler için yer açma */
+        padding-top: 1rem;
     }
     
     .menu-items {
@@ -1301,7 +1298,7 @@ a:hover {
         bottom: 0;
         width: 85%;
         max-width: 350px;
-        z-index: 950;
+        z-index: 410;
         background: linear-gradient(145deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.95));
         box-shadow: -5px 0 25px rgba(0, 0, 0, 0.7);
         overflow-y: auto;
@@ -1325,7 +1322,7 @@ a:hover {
         right: 0;
         bottom: 0;
         background-color: rgba(0, 0, 0, 0.7);
-        z-index: 900; /* Sepetten hemen altta */
+        z-index: 400; /* Sepetten hemen altta */
         backdrop-filter: blur(3px);
     }
     
