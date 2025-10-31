@@ -225,7 +225,7 @@ a:hover {
     padding: 0.3rem 0.5rem;
     position: sticky;
     top: 0;
-    z-index: 20;
+    z-index: 100;
     max-height: 50px;
     display: flex;
     align-items: center;
@@ -248,8 +248,9 @@ a:hover {
     gap: 2rem;
     padding: 0.5rem;
     background: linear-gradient(180deg, #0f172a 0%, rgba(15, 23, 42, 0.8) 100%);
-    position: relative;
-    z-index: 15;
+    position: sticky;
+    top: 50px;
+    z-index: 90;
 }
 
 .modern-title {
@@ -304,11 +305,11 @@ a:hover {
     background: linear-gradient(180deg, rgba(30, 41, 59, 0.98) 0%, rgba(15, 23, 42, 0.99) 100%);
     padding: 0.3rem 0;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
-    position: fixed;
+    position: sticky;
     top: 90px; /* header + action buttons */
     left: 0;
     right: 0;
-    z-index: 20;
+    z-index: 80;
     margin-top: 0;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -659,7 +660,7 @@ a:hover {
     height: 100%;
     border: 1px solid rgba(255, 255, 255, 0.1);
     overflow: hidden;
-    z-index: 3000; /* En üst katmanda olması için */
+    z-index: 10;
     position: relative;
 }
 
@@ -1115,7 +1116,7 @@ a:hover {
     border-radius: var(--border-radius-lg);
     box-shadow: 0 8px 20px rgba(0,0,0,.7);
     opacity: 0;
-    z-index: 1000;
+    z-index: 1100;
     transition: transform 0.3s ease-out, opacity 0.3s ease-out;
     color: var(--white);
     min-width: 280px;
@@ -1213,7 +1214,7 @@ a:hover {
     align-items: center;
     justify-content: center;
     font-size: 1.5rem;
-    z-index: 100;
+    z-index: 910;
     cursor: pointer;
 }
 
@@ -1254,12 +1255,12 @@ a:hover {
     
     /* Mobilde de menü navigasyonu sabit */
     .menu-nav {
-        position: fixed;
+        position: sticky;
         top: 90px;
         left: 0;
         right: 0;
         width: 100%;
-        z-index: 30;
+        z-index: 80;
     }
     
     .menu-content {
@@ -1300,7 +1301,7 @@ a:hover {
         bottom: 0;
         width: 85%;
         max-width: 350px;
-        z-index: 3000;
+        z-index: 950;
         background: linear-gradient(145deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.95));
         box-shadow: -5px 0 25px rgba(0, 0, 0, 0.7);
         overflow-y: auto;
@@ -1324,7 +1325,7 @@ a:hover {
         right: 0;
         bottom: 0;
         background-color: rgba(0, 0, 0, 0.7);
-        z-index: 2900; /* Sepetten hemen altta */
+        z-index: 900; /* Sepetten hemen altta */
         backdrop-filter: blur(3px);
     }
     
